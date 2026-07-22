@@ -95,7 +95,7 @@ config_dict = {
 def get_config(config_name: Optional[str] = None) -> BaseConfig:
     """获取配置实例"""
     if not config_name:
-        config_name = os.getenv('FLASK_CONFIG', 'development')
+        config_name = os.getenv('FLASK_CONFIG', 'production')
     
     config_class = config_dict.get(config_name, ProductionConfig)
     return config_class()

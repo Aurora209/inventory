@@ -21,13 +21,13 @@ def create_app(config_name=None):
 
     # 根据环境变量或参数选择配置
     if not config_name:
-        config_name = os.getenv('FLASK_CONFIG', 'default')
+        config_name = os.getenv('FLASK_CONFIG', 'production')
     
     # 根据环境名称加载配置
     if config_name in ['development', 'production', 'testing']:
         selected_config = config_dict_legacy[config_name]
     else:
-        selected_config = config_dict_legacy['development']
+        selected_config = config_dict_legacy['production']
     app.config.from_object(selected_config)
 
     # 使用配置中的 DEBUG 值设置日志

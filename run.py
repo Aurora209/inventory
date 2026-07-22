@@ -12,25 +12,15 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_dir)
 
 # 模块级 app 对象，供 gunicorn 导入 (run:app)
-app = None
-
-
-def create_app_instance():
-    """创建并返回 Flask 应用实例"""
-    global app
-    if app is None:
-        os.environ.setdefault('FLASK_CONFIG', 'production')
-        setup_logging(debug=False)
-        from app import create_app as _create_app
-        app = _create_app()
-    return app
+os.environ.setdefault('FLASK_CONFIG', 'production')
+setup_logging(debug=False)
+from app import create_app as _create_app
+app = _create_app()
 
 
 if __name__ == '__main__':
-    # 设置环境变量
     os.environ.setdefault('FLASK_CONFIG', 'production')
 
-    # 初始化日志
     debug_mode = os.environ.get('FLASK_DEBUG', '0') in ('1', 'true', 'True') or os.environ.get('FLASK_CONFIG') == 'development'
     setup_logging(debug=debug_mode)
 
@@ -41,7 +31,7 @@ if __name__ == '__main__':
 
     try:
         logger.info("正在创建Flask应用实例...")
-        flask_app = create_app_instance()
+        flask_app = app
 
         logger.info("=== Flask应用创建成功 ===")
         logger.info("应用名称: %s", flask_app.name)
@@ -54,7 +44,6 @@ if __name__ == '__main__':
         display_host = '127.0.0.1' if host in ('0.0.0.0', '::') else host
         logger.info("服务将启动在: http://%s:%s", display_host, port)
 
-        # 打印所有注册的路由
         logger.info("已注册的路由:")
         has_routes = False
         for rule in flask_app.url_map.iter_rules():
@@ -66,14 +55,10 @@ if __name__ == '__main__':
 
         logger.info("=" * 50)
         logger.info("按 Ctrl+C 停止服务")
-
-        # 在 Windows 上禁用重载器
-        logger.info("启动Flask开发服务器...")
         flask_app.run(host=host, port=port, debug=flask_app.config['DEBUG'], use_reloader=False)
 
     except ImportError as e:
         logger.exception("导入错误: %s", e)
-        logger.error("可能的原因:\n1. 依赖包未安装 - 请运行: pip install -r requirements.txt\n2. Python路径问题\n3. 文件不存在或路径错误")
         input("按回车键退出...")
 
     except Exception as e:
