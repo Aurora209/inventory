@@ -1,0 +1,84 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+env:
+  IMAGE_NAME: aurora209/inventory
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 拉取完整历史以获取 tags
+
+      # 2. 设置 QEMU 支持多平台（如需）
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      # 3. 设置 Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 4. 登录 Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 5. 生成镜像标签
+      - name: Generate image tags
+        id: tags
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            # Git tag 推送 → 使用 tag 名称（如 v1.0.0）
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+            echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+            echo "tag1=${{ env.IMAGE_NAME }}:${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+            echo "tag2=${{ env.IMAGE_NAME }}:${VERSION}" >> "$GITHUB_OUTPUT"
+            echo "tag3=${{ env.IMAGE_NAME }}:latest" >> "$GITHUB_OUTPUT"
+            echo "tags=${{ env.IMAGE_NAME }}:${{ github.ref_name }},${{ env.IMAGE_NAME }}:${VERSION},${{ env.IMAGE_NAME }}:latest" >> "$GITHUB_OUTPUT"
+          else
+            # 普通 push → 使用 commit SHA 短哈希
+            SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+            echo "version=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+            echo "tag1=${{ env.IMAGE_NAME }}:${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+            echo "tag2=${{ env.IMAGE_NAME }}:latest" >> "$GITHUB_OUTPUT"
+            echo "tags=${{ env.IMAGE_NAME }}:${SHORT_SHA},${{ env.IMAGE_NAME }}:latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      # 6. 构建并推送镜像
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=${{ github.repositoryUrl }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.version=${{ steps.tags.outputs.version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 7. 输出信息
+      - name: Summary
+        run: |
+          echo "✅ 镜像构建完成并推送到 Docker Hub" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**镜像标签:**" >> "$GITHUB_STEP_SUMMARY"
+          for tag in $(echo "${{ steps.tags.outputs.tags }}" | tr ',' ' '); do
+            echo "- \`$tag\`" >> "$GITHUB_STEP_SUMMARY"
+          done
