@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_NAME: aurora209/inventory
-  ACTIONS_RUNNER_NODE_VERSION: '24'
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
 
 jobs:
   build-and-push:
