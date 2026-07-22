@@ -1,0 +1,97 @@
+/**
+ * styles.css — CSS import manifest
+ *
+ * This file replaces the monolithic stylesheet. All page styles are split
+ * into modular files under pages/ and imported here in load order.
+ *
+ * Load order:
+ *   1. Variables (design tokens)
+ *   2. Base (reset, layout, components)
+ *   3. Responsive base
+ *   4. Print
+ *   5. Label print
+ *   6. Per-page styles (loaded in DOM order)
+ *
+ * To add a new page style file, create pages/_<name>.css and add an
+ * @import below in the appropriate section.
+ */
+
+/* ── Design Tokens ──────────────────────────────── */
+@import url("variables.css?v=2026062214");
+
+/* ── Base Styles ───────────────────────────────── */
+@import url("base.css?v=2026062214");
+
+/* ── Responsive Base ───────────────────────────── */
+@import url("responsive-base.css?v=2026062214");
+
+/* ── Print ─────────────────────────────────────── */
+@import url("print.css?v=2026062214");
+
+/* ── Label Print ───────────────────────────────── */
+@import url("label-print.css?v=2026062214");
+
+/* ── Page: Dashboard ───────────────────────────── */
+@import url("pages/_dashboard.css?v=2026062214");
+@import url("pages/_global-chrome.css?v=2026062214");
+@import url("pages/_dashboard-like.css?v=2026062214");
+@import url("pages/_shared-normalization.css?v=2026062214");
+@import url("pages/_stat-cards-all.css?v=2026062214");
+
+/* ── Page: Products ────────────────────────────── */
+@import url("pages/_products.css?v=2026062214");
+@import url("pages/_product-edit.css?v=2026062214");
+
+/* ── Page: Orders (Purchase & Sales) ───────────── */
+@import url("pages/_purchase-order-list.css?v=2026062214");
+@import url("pages/_purchase-modal.css?v=2026062214");
+@import url("pages/_sales-order-list.css?v=2026062214");
+@import url("pages/_order-modals.css?v=2026062214");
+@import url("pages/_order-edit-labels.css?v=2026062214");
+@import url("pages/_purchase-order-edit.css?v=2026062214");
+
+/* ── Page: BOM ─────────────────────────────────── */
+@import url("pages/_bom.css?v=2026062214");
+@import url("pages/_bom-modal.css?v=2026062214");
+@import url("pages/_bom-detail-all.css?v=2026062214");
+
+/* ── Page: Inventory ───────────────────────────── */
+@import url("pages/_inventory.css?v=2026062214");
+@import url("pages/_inventory-toolbar.css?v=2026062214");
+
+/* ── Page: Exchange Rate ───────────────────────── */
+@import url("pages/_exchange-rate-all.css?v=2026062214");
+
+/* ── Page: Categories ──────────────────────────── */
+@import url("pages/_categories-all.css?v=2026062214");
+
+/* ── Missing / Utility Styles ──────────────────── */
+@import url("pages/_missing-styles.css?v=2026062214");
+
+/* ── Fullscreen Modal System ─────────────────── */
+@import url("pages/_fullscreen-modals.css?v=2026072201");
+
+/* ── Page: Production ──────────────────────────── */
+/* (production styles live in base.css under the .production-page block) */
+
+/* ── Page: Labels ──────────────────────────────── */
+/* (label styles live in label-print.css) */
+
+/* ── Page: Packing List ────────────────────────── */
+/* (packing-list styles live in label-print.css) */
+
+/* ── Page: Reports ─────────────────────────────── */
+/* (report styles are shared with base/components) */
+
+/* ── Page: System Config ───────────────────────── */
+/* (config styles are shared with base/components) */
+
+/* ── Page: Unit Converter ──────────────────────── */
+/* (converter styles are shared with base/components) */
+
+/* ── Layout Helpers ────────────────────────────── */
+@import url("pages/_footer-layout.css?v=2026062214");
+
+/* ── Final Global Overrides ────────────────────── */
+@import url("pages/_typography.css?v=2026062214");
+@import url("pages/_polish.css?v=2026062304");

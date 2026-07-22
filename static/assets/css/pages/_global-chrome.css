@@ -1,0 +1,112 @@
+/* Global page chrome alignment and unified page colors */
+
+.site-header .header-content {
+  position: relative;
+  justify-content: center;
+  text-align: center;
+  min-height: 72px;
+}
+
+.site-header .header-content > div:first-child {
+  flex: 1 1 auto;
+}
+
+.site-header .status {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Order page accent colors */
+.order-page.purchase,
+.order-page.sales {
+  --order-accent: var(--primary-color);
+  --order-accent-soft: rgba(74, 144, 226, 0.10);
+  --order-accent-border: rgba(74, 144, 226, 0.28);
+}
+
+.order-page .page-title {
+  background: white;
+  border-color: var(--border-color);
+}
+
+.order-page.purchase .btn-primary,
+.order-page.sales .btn-primary {
+  background-color: var(--primary-color);
+}
+
+.order-page.purchase .btn-primary:hover,
+.order-page.sales .btn-primary:hover {
+  background-color: #357abd;
+}
+
+/* BOM badge colors */
+.bom-category-badge,
+.bom-count-link {
+  color: var(--primary-color);
+}
+
+/* Shared color references for various page elements */
+.products-stat-value,
+.production-panel-header h3,
+.production-field-group label,
+.production-summary-item strong,
+.production-empty-state h4,
+.dashboard-stat-card .stat-value,
+.dashboard-panel h3,
+.warning-meta,
+.transaction-meta,
+.transaction-filter {
+  color: var(--dark-color);
+}
+
+.production-divider,
+.dashboard-divider {
+  background: var(--border-color);
+}
+
+.production-field-group select,
+.production-field-group .input,
+.production-status-select,
+.products-search-input.image-style,
+.products-compact-select.image-style,
+.dashboard-stat-card,
+.dashboard-panel,
+.warning-item,
+.transaction-item,
+.dashboard-page .empty-state.compact {
+  border-color: var(--border-color);
+}
+
+.production-data-table th,
+.production-summary-bar,
+.dashboard-page,
+.warning-item,
+.transaction-item,
+.dashboard-page .empty-state.compact {
+  background: var(--background-color);
+}
+
+.dashboard-stat-card,
+.dashboard-panel {
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.production-panel {
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 768px) {
+  .site-header .header-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .site-header .status {
+    position: static;
+    transform: none;
+    margin-top: 10px;
+  }
+}

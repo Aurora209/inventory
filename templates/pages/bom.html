@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BOM 管理 - 库存管理系统</title>
+  <link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" />
+</head>
+<body class="bom-page-body">
+  <header class="site-header">
+    <div class="header-content">
+      <div>
+        <h1>BOM管理</h1>
+        <p>产品 BOM、物料构成与成本结构管理</p>
+      </div>
+      <div class="status" id="page-status">准备加载...</div>
+    </div>
+  </header>
+  <nav class="main-nav" id="main-nav"></nav>
+  <main class="layout main-content bom-page">
+    <section class="section products-toolbar-card bom-toolbar-card">
+      <div class="products-toolbar products-toolbar-image-style bom-toolbar-image-style">
+        <div class="products-toolbar-actions bom-toolbar-actions">
+          <button id="add-bom-button" class="btn btn-primary products-action-btn">➕ 添加BOM</button>
+          <button id="bom-report-button" class="btn btn-secondary products-action-btn">📊 BOM报表</button>
+        </div>
+        <div class="products-toolbar-search-wrap">
+          <input class="input products-search-input image-style" id="search-input" type="search" placeholder="搜索产品名称或SKU..." />
+        </div>
+        <div class="products-toolbar-filter-wrap">
+          <select id="category-filter-select" class="products-compact-select image-style">
+            <option value="">所有分类</option>
+          </select>
+        </div>
+      </div>
+      <p class="message" id="page-message"></p>
+    </section>
+
+    <section class="section bom-list-card">
+      <div class="section-header">
+        <h3>BOM成品列表</h3>
+        <p class="message bom-summary" id="bom-summary">共 0 个产品</p>
+      </div>
+      <div class="table-container"><table class="data-table bom-table"><thead><tr><th>SKU</th><th>产品名称</th><th>分类</th><th>物料构成</th><th>物料成本</th><th>状态</th><th>最后更新</th><th>操作</th></tr></thead><tbody id="bom-body"></tbody></table></div>
+    </section>
+
+    <div class="modal-overlay fullscreen" id="add-bom-modal" style="display:none;">
+      <div class="modal-content add-bom-modal-content" style="width:100vw; height:100vh; max-width:none; max-height:none; border-radius:0; overflow:hidden; ">
+        <div class="modal-header add-bom-modal-header">
+          <h3>添加BOM</h3>
+          <button id="close-add-bom-modal" class="modal-close" aria-label="关闭">×</button>
+        </div>
+        <div class="modal-body add-bom-modal-body">
+          <div class="add-bom-grid">
+            <label class="add-bom-field">
+              <span>产品名称</span>
+              <input class="input" id="add-bom-product-name" type="text" readonly placeholder="选择产品后自动填充" />
+            </label>
+            <label class="add-bom-field">
+              <span>产品SKU</span>
+              <input class="input" id="add-bom-product-sku" type="text" readonly placeholder="选择产品后自动填充" />
+            </label>
+            <label class="add-bom-field">
+              <span>选择产品 *</span>
+              <select id="add-bom-product-select"><option value="">请选择产品</option></select>
+            </label>
+            <label class="add-bom-field add-bom-full">
+              <span>BOM描述</span>
+              <textarea class="input" id="add-bom-description" placeholder="输入BOM描述（可选）"></textarea>
+            </label>
+          </div>
+
+          <section class="add-bom-section">
+            <h4>主原材料前置条件</h4>
+            <div class="add-bom-grid">
+              <label class="add-bom-field">
+                <span>单份产品容量/总量</span>
+                <input class="input" id="add-bom-product-quantity" type="number" min="0" step="0.01" placeholder="如：BBK3OZ 的容量" />
+                <small>组合装仍按单份产品容量填写，例如 BBK3OZ3PK 仍填 BBK3OZ 的容量。</small>
+              </label>
+              <label class="add-bom-field">
+                <span>单位</span>
+                <input class="input" id="add-bom-product-unit" type="text" placeholder="如：ml、g、oz等" />
+              </label>
+              <label class="add-bom-field">
+                <span>使用份数</span>
+                <input class="input" id="add-bom-usage-count" type="number" min="1" step="1" value="1" placeholder="如：3PK 填 3" />
+                <small>主原材料按"产品容量/总量 × 配比百分比 × 使用份数"计算；主原材料配比合计必须等于 100%。包装材料/辅材按"输入用量 × 使用份数"计算。</small>
+              </label>
+            </div>
+          </section>
+
+          <section class="add-bom-section">
+            <h4>添加主原材料 / 包装材料 / 辅材</h4>
+            <div class="add-bom-grid">
+              <label class="add-bom-field add-bom-half-field">
+                <span>物料分类 *</span>
+                <select id="add-bom-material-category-select"><option value="">请选择分类</option></select>
+                <small>先选择左侧分类，再在右侧选择该分类下的产品。</small>
+              </label>
+              <label class="add-bom-field add-bom-half-field">
+                <span>选择物料 *</span>
+                <select id="add-bom-material-select"><option value="">请先选择分类</option></select>
+                <small>不添加子产品；主原材料输入配比百分比，合计需为 100%；包装材料/辅材输入每份用量，并统一乘以上方使用份数。</small>
+              </label>
+              <label class="add-bom-field">
+                <span>物料名称</span>
+                <input class="input" id="add-bom-material-name" type="text" readonly placeholder="选择物料后自动填充" />
+              </label>
+              <label class="add-bom-field">
+                <span>物料SKU</span>
+                <input class="input" id="add-bom-material-sku" type="text" readonly placeholder="选择物料后自动填充" />
+              </label>
+              <label class="add-bom-field">
+                <span>单位 *</span>
+                <input class="input" id="add-bom-material-unit" type="text" value="个" placeholder="输入单位，如：个、KG、g、L、ml等" />
+                <small>单位变更时会自动换算单价，如：kg→g 价格会自动除以1000</small>
+              </label>
+              <label class="add-bom-field">
+                <span>配比百分比 / 每份用量 *</span>
+                <input class="input" id="add-bom-material-quantity" type="number" min="0.001" step="0.001" value="1" placeholder="主原材料填百分比，如 12.5；包装/辅材填每份用量" />
+              </label>
+              <label class="add-bom-field">
+                <span>单价</span>
+                <input class="input" id="add-bom-material-price" type="number" min="0" step="0.01" value="0" placeholder="输入单价" />
+              </label>
+            </div>
+            <button id="add-bom-temp-item-button" type="button" class="btn btn-secondary add-bom-wide-button">添加物料</button>
+          </section>
+
+          <section class="add-bom-section">
+            <h4>已添加的物料</h4>
+            <div class="table-container add-bom-items-table-wrap">
+              <table class="data-table add-bom-items-table">
+                <thead><tr><th>产品分类</th><th>物料名称</th><th>物料SKU</th><th>计算方式 / 实际用量</th><th>单位</th><th>单价</th><th>小计</th><th>操作</th></tr></thead>
+                <tbody id="add-bom-items-body"></tbody>
+                <tfoot><tr><td colspan="6" class="text-right"><strong>总成本:</strong></td><td colspan="2"><strong id="add-bom-total-cost" class="total-cost">¥0.00</strong></td></tr></tfoot>
+              </table>
+            </div>
+          </section>
+
+          <p class="message" id="add-bom-message"></p>
+          <div class="form-actions add-bom-actions">
+            <button id="cancel-add-bom-button" type="button" class="btn btn-secondary">取消</button>
+            <button id="save-add-bom-button" type="button" class="btn btn-primary">创建BOM</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay fullscreen" id="detail-section" style="display:none;">
+      <div class="modal-content" style="width:100vw; height:100vh; max-width:none; max-height:none; border-radius:0; overflow:hidden; ">
+        <div class="modal-header">
+          <div>
+            <h3 id="detail-title">BOM 详情</h3>
+            <p class="message" id="detail-subtitle"></p>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button id="print-selected-bom-button" type="button" class="btn btn-secondary btn-sm" title="打印选中的物料" style="display:none;">🖨️ 打印选中</button>
+            <button id="close-detail-button" class="modal-close" aria-label="关闭">×</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div id="detail-readonly-banner" class="message" style="margin-bottom: 12px; color: var(--secondary-color);"></div>
+          <div id="detail-editor-toolbar" class="filters bom-detail-editor-toolbar" style="display:none;">
+            <select id="product-select"></select>
+            <div class="bom-detail-material-row">
+              <select id="detail-material-category-select"><option value="">选择物料分类</option></select>
+              <select id="material-select"><option value="">请先选择分类</option></select>
+            </div>
+            <input class="input" id="quantity-input" type="number" min="0.001" step="0.001" placeholder="单位用量" />
+            <input class="input" id="unit-input" type="text" placeholder="单位，如 个 / g / ml" />
+            <button id="add-item-button" class="btn btn-primary">新增 BOM 项</button>
+          </div>
+          <div id="detail-body" class="bom-detail-groups"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="page-footer"><div class="footer-content"><p>&copy; 2025 库存管理系统. 保留所有权利.</p><div class="footer-links"><a href="javascript:void(0)">隐私政策</a><a href="javascript:void(0)">使用条款</a><a href="javascript:void(0)">联系我们</a></div></div></footer>
+  <script type="module" src="/static/assets/js/bom.js?v=202605211950"></script>
+</body>
+</html>

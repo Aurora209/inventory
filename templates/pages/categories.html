@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>分类管理 - 库存管理系统</title><link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" /></head>
+<body>
+  <header class="site-header"><div class="header-content"><div><h1>分类管理</h1><p>产品分类树、新增子分类与使用情况维护</p></div><div class="status" id="page-status">准备加载...</div></div></header>
+  <nav class="main-nav" id="main-nav"></nav>
+  <main class="layout main-content categories-page">
+    <section class="section"><div class="section-header"><h3>分类结构</h3><button id="add-root-category" class="btn btn-primary">➕ 添加一级分类</button></div><div id="categories-tree" class="categories-tree"></div><p class="message" id="page-message"></p></section>
+    <div class="modal-overlay fullscreen" id="category-modal" style="display:none;"><div class="modal-content" style="width:100vw; height:100vh; max-width:none; max-height:none; border-radius:0; overflow:hidden; "><div class="modal-header"><h3 id="category-modal-title">添加分类</h3><button id="close-category-modal" class="modal-close">×</button></div><div class="modal-body"><div class="form-grid"><label><span>分类名称 *</span><input id="category-name" class="input" maxlength="50" /></label><label><span>父分类</span><select id="category-parent"><option value="">顶级分类</option></select></label></div><p class="message" id="category-modal-message"></p><div class="form-actions"><button id="cancel-category" class="btn btn-secondary">取消</button><button id="save-category" class="btn btn-primary">保存</button></div></div></div></div>
+  </main>
+  <footer class="page-footer"><div class="footer-content"><p>&copy; 2025 库存管理系统. 保留所有权利.</p><div class="footer-links"><a href="javascript:void(0)">隐私政策</a><a href="javascript:void(0)">使用条款</a><a href="javascript:void(0)">联系我们</a></div></div></footer>
+  <script type="module" src="/static/assets/js/categories.js?v=2026051302"></script>
+</body>
+</html>

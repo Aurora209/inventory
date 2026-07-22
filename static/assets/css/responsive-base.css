@@ -1,0 +1,57 @@
+@media (max-width: 768px) {
+  .production-form-grid,
+  .production-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .production-plan-toolbar {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-header .header-content,
+  .layout,
+  .page-title,
+  .footer-content,
+  .nav-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .site-header .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-list {
+    flex-direction: column;
+  }
+
+  .dropdown-menu {
+    position: static;
+    display: block;
+    box-shadow: none;
+    border: none;
+    padding-left: 20px;
+  }
+
+  .section-header,
+  .form-actions,
+  .footer-content,
+  .footer-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn,
+  button,
+  .action-btn {
+    width: 100%;
+  }
+
+  .table,
+  .data-table {
+    min-width: 520px;
+  }
+}

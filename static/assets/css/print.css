@@ -1,0 +1,28 @@
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .site-header,
+  .main-nav,
+  .page-title,
+  .page-footer,
+  .no-print {
+    display: none !important;
+  }
+
+  .layout {
+    padding: 0;
+    max-width: none;
+  }
+
+  .card,
+  .section,
+  .print-sheet {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+  }
+}
+

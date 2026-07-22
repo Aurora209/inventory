@@ -1,0 +1,70 @@
+/* Order detail/edit modal overlay */
+.order-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  display: none;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(2px);
+}
+
+.order-page #order-detail-panel,
+.order-page #edit-order-panel {
+  position: fixed;
+  top: 4vh;
+  left: 50%;
+  z-index: 960;
+  width: min(1440px, calc(100vw - 48px));
+  max-height: 92vh;
+  overflow: auto;
+  transform: translateX(-50%);
+  margin: 0 !important;
+  padding: 20px;
+  border-radius: 12px !important;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28) !important;
+}
+
+.order-page #edit-order-panel {
+  width: min(1180px, calc(100vw - 48px));
+}
+
+.order-page #order-detail-panel .section-header,
+.order-page #edit-order-panel .section-header {
+  position: sticky;
+  top: -20px;
+  z-index: 2;
+  margin: -20px -20px 16px;
+  padding: 18px 20px 14px;
+  background: #fff;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 12px 12px 0 0;
+}
+
+.order-page #edit-order-panel .filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.order-page #edit-order-panel .table-container {
+  max-height: 42vh;
+  overflow: auto;
+}
+
+@media (max-width: 760px) {
+  .order-page #order-detail-panel,
+  .order-page #edit-order-panel {
+    top: 12px;
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    padding: 14px;
+  }
+
+  .order-page #order-detail-panel .section-header,
+  .order-page #edit-order-panel .section-header {
+    top: -14px;
+    margin: -14px -14px 12px;
+    padding: 14px;
+  }
+}

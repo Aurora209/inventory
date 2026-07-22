@@ -1,0 +1,280 @@
+/* BOM page visual alignment with provided mockup */
+.bom-page {
+  max-width: 1360px;
+  padding: 0 0 34px;
+}
+
+.bom-page .bom-toolbar-card {
+  padding: 0;
+  margin-bottom: 24px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.bom-page .bom-toolbar-image-style {
+  display: grid;
+  grid-template-columns: auto minmax(280px, 1fr) 200px;
+  align-items: center;
+  gap: 16px;
+}
+
+.bom-page .bom-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.bom-page .products-action-btn {
+  height: 42px;
+  min-width: 115px;
+  padding: 0 18px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+.bom-page #add-bom-button {
+  background: #4a90e2;
+  color: #fff;
+}
+
+.bom-page #add-composite-bom-button,
+.bom-page #bom-report-button {
+  background: #6c757d;
+  color: #fff;
+}
+
+.bom-page .products-toolbar-search-wrap {
+  justify-self: end;
+  width: 100%;
+  max-width: 280px;
+  position: relative;
+}
+
+.bom-page .products-toolbar-search-wrap::before {
+  content: none;
+}
+
+.bom-page .products-search-input.image-style {
+  width: 100%;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #d7dee7;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: none;
+  font-size: 14px;
+}
+
+.bom-page .products-toolbar-filter-wrap {
+  position: relative;
+}
+
+.bom-page .products-toolbar-filter-wrap::after {
+  content: none;
+}
+
+.bom-page .products-compact-select.image-style {
+  width: 200px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #4a90e2;
+  border-radius: 8px;
+  background: #fff;
+  color: #111827;
+  font-size: 15px;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.12);
+  appearance: none;
+}
+
+.bom-page .bom-list-card {
+  margin-top: 0;
+  padding: 24px 24px 0;
+  border: 1px solid #d7dee7;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(31, 45, 61, 0.11);
+  overflow: hidden;
+}
+
+.bom-page .bom-list-card .section-header {
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #d7dee7;
+}
+
+.bom-page .bom-list-card .section-header h3 {
+  color: #111827;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.bom-page .bom-summary {
+  display: none;
+}
+
+.bom-page .bom-list-card .table-container {
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 0 16px rgba(15, 23, 42, 0.04);
+  overflow: auto;
+}
+
+.bom-page .bom-table {
+  border-collapse: collapse;
+  min-width: 1180px;
+  table-layout: auto;
+}
+
+.bom-page .bom-table th {
+  height: 62px;
+  padding: 18px 12px;
+  background: #fff !important;
+  color: #111827;
+  border-bottom: 1px solid #d7dee7;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.bom-page .bom-table td {
+  padding: 18px 12px;
+  min-height: 64px;
+  border-bottom: 1px solid #d7dee7;
+  color: #111827;
+  font-size: 15px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.bom-page .bom-sku-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 29px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #111827;
+  font-size: 13px;
+  font-family: Consolas, 'Courier New', monospace;
+}
+
+.bom-page .bom-product-name {
+  font-size: 16px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.bom-page .bom-category-badge {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #e3f2fd;
+  color: #1677e8;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.bom-page .bom-count-link {
+  color: #3b82f6;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.bom-page .bom-material-summary {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.25;
+}
+
+.bom-page .bom-material-summary strong {
+  color: #3b82f6;
+  font-size: 16px;
+}
+
+.bom-page .bom-material-summary span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bom-material-type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.bom-material-type-badge.main {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.bom-material-type-badge.packaging {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.bom-material-type-badge.auxiliary {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.bom-material-type-badge.label,
+.bom-material-type-badge.component {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.bom-page .bom-cost-text {
+  color: #16a34a;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.bom-page .bom-status-badge {
+  min-height: 34px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #e8f5e9;
+  color: #16803a;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.bom-page .bom-action-group {
+  display: inline-flex;
+  gap: 7px;
+  flex-wrap: nowrap;
+}
+
+.bom-page .bom-icon-btn {
+  width: 33px;
+  height: 33px;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+@media (max-width: 960px) {
+  .bom-page .bom-toolbar-image-style {
+    grid-template-columns: 1fr;
+  }
+
+  .bom-page .products-toolbar-search-wrap,
+  .bom-page .products-compact-select.image-style {
+    max-width: none;
+    width: 100%;
+  }
+
+  .bom-page .bom-toolbar-actions {
+    flex-wrap: wrap;
+  }
+}

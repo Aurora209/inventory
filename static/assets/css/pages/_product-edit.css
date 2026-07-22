@@ -1,0 +1,116 @@
+/* Product edit modal: match provided form layout */
+.product-edit-modal {
+  width: 95vw !important;
+  height: 95vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 7px !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-edit-header {
+  min-height: 73px;
+  padding: 18px 18px;
+  border-bottom: 1px solid #d7dee7;
+}
+
+.product-edit-header h3 {
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.product-edit-header .modal-close {
+  color: #6b7280;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.product-edit-body {
+  padding: 28px 12px 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.product-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+  row-gap: 32px;
+  padding: 0 6px;
+}
+
+.product-edit-field {
+  display: grid;
+  gap: 8px;
+  color: #2f3742;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.product-edit-field input,
+.product-edit-field select,
+.product-edit-field textarea {
+  height: 39px;
+  padding: 8px 12px;
+  border: 1px solid #d7dee7;
+  border-radius: 5px;
+  background: #fff;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 400;
+  box-shadow: none;
+}
+
+.product-edit-field input:focus,
+.product-edit-field select:focus,
+.product-edit-field textarea:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.25);
+}
+
+.product-edit-full {
+  grid-column: 1 / -1;
+}
+
+.product-edit-field textarea {
+  height: 100px;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.product-edit-body #edit-product-message {
+  margin: 10px 18px 0;
+}
+
+.product-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 39px;
+  padding: 16px 12px 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.product-edit-actions .btn {
+  min-width: 60px;
+  min-height: 41px;
+  padding: 10px 15px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.product-edit-actions .btn-secondary {
+  background: #6b7280;
+}
+
+@media (max-width: 680px) {
+  .product-edit-grid {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+  }
+}

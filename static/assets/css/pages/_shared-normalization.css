@@ -1,0 +1,119 @@
+/* Shared content normalization for all pages */
+
+.layout.main-content {
+  max-width: var(--nav-width);
+  padding: 0 0 34px;
+}
+
+.layout.main-content > .section,
+.layout.main-content > .grid.two-col > .card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  padding: 22px 20px 20px;
+}
+
+.layout.main-content > .section {
+  margin-top: 0 !important;
+  margin-bottom: 22px;
+  overflow: hidden;
+}
+
+.layout.main-content > .grid.two-col {
+  gap: 18px;
+  margin-top: 0 !important;
+  margin-bottom: 22px;
+}
+
+.layout.main-content > .section + .grid.two-col,
+.layout.main-content > .grid.two-col + .section {
+  margin-top: 22px !important;
+}
+
+/* Section headers */
+.layout.main-content .section-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.layout.main-content .section-header h2,
+.layout.main-content .section-header h3 {
+  color: var(--dark-color);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* Stat/order cards should not show section headers */
+.layout.main-content > .grid.two-col > .card > .section-header,
+.products-stat-card .section-header,
+.order-summary-card .section-header,
+.inventory-page > .grid > .card .section-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+.layout.main-content > .grid.two-col > .card > .section-header h3,
+.products-stat-label,
+.order-summary-card h3,
+.inventory-page > .grid > .card h3 {
+  color: var(--secondary-color);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Tables */
+.layout.main-content .table-container {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: auto;
+}
+
+.layout.main-content .data-table th,
+.layout.main-content .table th {
+  background: var(--background-color);
+}
+
+.layout.main-content .data-table tr:last-child td,
+.layout.main-content .table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Form inputs */
+.layout.main-content .input,
+.layout.main-content select,
+.layout.main-content textarea {
+  border-color: var(--border-color);
+  border-radius: 8px;
+  background: white;
+}
+
+.layout.main-content .input,
+.layout.main-content select {
+  min-height: 42px;
+}
+
+/* Buttons */
+.layout.main-content .btn,
+.layout.main-content button {
+  border-radius: 6px;
+  min-height: 40px;
+  box-shadow: none;
+}
+
+.layout.main-content code {
+  color: var(--dark-color);
+}
+
+/* Panel overrides for inline modals/panels */
+.layout.main-content .card[id$="panel"],
+.layout.main-content #order-detail-panel,
+.layout.main-content #edit-order-panel,
+.layout.main-content #inventory-check-panel {
+  background: white !important;
+  border-color: var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}

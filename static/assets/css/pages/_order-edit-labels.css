@@ -1,0 +1,36 @@
+/* Order edit form labels */
+.order-page #edit-order-panel .edit-order-field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.order-page #edit-order-panel .order-edit-field,
+.order-page #edit-order-panel .order-edit-cell-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.order-page #edit-order-panel .order-edit-field span,
+.order-page #edit-order-panel .order-edit-cell-label span {
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.order-page #edit-order-panel .order-edit-wide {
+  grid-column: span 2;
+}
+
+.order-page #edit-order-panel .order-edit-cell-label .input,
+.order-page #edit-order-panel .order-edit-cell-label select,
+.order-page #edit-order-panel .order-edit-field .input,
+.order-page #edit-order-panel .order-edit-field select {
+  width: 100%;
+}

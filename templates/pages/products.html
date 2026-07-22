@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>产品管理 - 库存管理系统</title>
+  <link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <div>
+        <h1>产品管理</h1>
+        <p>产品信息、SKU 与分类统一管理</p>
+      </div>
+      <div class="status" id="page-status">准备加载...</div>
+    </div>
+  </header>
+  <nav class="main-nav" id="main-nav"></nav>
+
+  <main class="layout main-content products-page">
+    <section class="grid two-col products-stats-grid" style="margin-bottom:16px;">
+      <article class="card products-stat-card">
+        <div class="products-stat-icon" aria-hidden="true">📦</div>
+        <div>
+          <div id="stat-total-products" class="products-stat-value">0</div>
+          <div class="products-stat-label">产品总数</div>
+        </div>
+      </article>
+      <article class="card products-stat-card">
+        <div class="products-stat-icon warn" aria-hidden="true">⚠️</div>
+        <div>
+          <div id="stat-low-stock" class="products-stat-value">0</div>
+          <div class="products-stat-label">低库存</div>
+        </div>
+      </article>
+      <article class="card products-stat-card">
+        <div class="products-stat-icon danger" aria-hidden="true">⛔</div>
+        <div>
+          <div id="stat-zero-stock" class="products-stat-value">0</div>
+          <div class="products-stat-label">缺货产品</div>
+        </div>
+      </article>
+      <article class="card products-stat-card">
+        <div class="products-stat-icon category" aria-hidden="true">🗂️</div>
+        <div>
+          <div id="stat-total-categories" class="products-stat-value">0</div>
+          <div class="products-stat-label">产品分类</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section products-toolbar-card">
+      <div class="products-toolbar products-toolbar-image-style">
+        <div class="products-toolbar-actions">
+          <button id="open-create-product-modal" class="btn btn-primary products-action-btn">添加产品</button>
+          <button id="export-products-button" class="btn btn-secondary products-action-btn">导出数据</button>
+        </div>
+        <div class="products-toolbar-search-wrap">
+          <input class="input products-search-input image-style" id="search-input" type="search" placeholder="搜索产品名称或SKU..." />
+        </div>
+        <div class="products-toolbar-filter-wrap">
+          <select id="category-select" class="products-compact-select image-style">
+            <option value="">所有分类</option>
+          </select>
+        </div>
+      </div>
+      <p class="message" id="page-message"></p>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h3>产品列表</h3>
+          <p class="message" id="products-summary"></p>
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>SKU</th><th>产品名称</th><th>分类</th><th>库存数量</th><th>单价</th><th>库存价值</th><th>状态</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="products-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="modal-overlay fullscreen" id="create-product-modal" style="display:none;">
+      <div class="modal-content" style="width:100vw; height:100vh; max-width:none; max-height:none; border-radius:0; overflow:hidden; ">
+        <div class="modal-header">
+          <h3>添加产品</h3>
+          <button id="close-create-product-modal" class="modal-close" aria-label="关闭">×</button>
+        </div>
+        <div class="modal-body product-edit-body">
+          <div class="product-edit-grid">
+            <label class="product-edit-field">
+              <span>SKU *</span>
+              <input class="input" id="create-sku" type="text" placeholder="请输入 SKU" />
+            </label>
+            <label class="product-edit-field">
+              <span>产品名称 *</span>
+              <input class="input" id="create-name" type="text" placeholder="请输入产品名称" />
+            </label>
+            <label class="product-edit-field">
+              <span>分类</span>
+              <select id="create-category-select">
+                <option value="">选择分类</option>
+              </select>
+            </label>
+            <label class="product-edit-field">
+              <span>单位</span>
+              <input class="input" id="create-unit" type="text" value="个" placeholder="单位" />
+            </label>
+            <label class="product-edit-field">
+              <span>库存数量</span>
+              <input class="input" id="create-quantity" type="number" min="0" value="0" placeholder="库存数量" />
+            </label>
+            <label class="product-edit-field">
+              <span>最低库存</span>
+              <input class="input" id="create-min-stock" type="number" min="0" value="0" placeholder="最低库存" />
+            </label>
+            <label class="product-edit-field">
+              <span>单价 (¥)</span>
+              <input class="input" id="create-price" type="number" min="0" step="0.01" value="0" placeholder="单价" />
+            </label>
+            <label class="product-edit-field product-edit-full">
+              <span>产品描述</span>
+              <textarea class="input" id="create-description" placeholder="输入产品描述（可选）"></textarea>
+            </label>
+          </div>
+          <div class="form-actions" style="justify-content:flex-start; margin-top:16px;">
+            <button id="create-product-button" class="btn btn-primary">创建产品</button>
+          </div>
+          <p class="message" id="create-product-message"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay fullscreen" id="edit-product-modal" style="display:none;">
+      <div class="modal-content product-edit-modal" style="width:100vw; height:100vh; max-width:none; max-height:none; border-radius:0; overflow:hidden; ">
+        <div class="modal-header product-edit-header">
+          <h3>编辑产品</h3>
+          <button id="close-edit-product-modal" class="modal-close" aria-label="关闭">×</button>
+        </div>
+        <div class="modal-body product-edit-body">
+          <select id="edit-product-type" hidden>
+            <option value="finished">成品</option>
+            <option value="raw_material">原材料</option>
+          </select>
+          <input id="edit-min-stock" type="hidden" value="0" />
+
+          <div class="product-edit-grid">
+            <label class="product-edit-field">
+              <span>SKU *</span>
+              <input class="input" id="edit-sku" type="text" placeholder="请输入 SKU" />
+            </label>
+            <label class="product-edit-field">
+              <span>产品名称 *</span>
+              <input class="input" id="edit-name" type="text" placeholder="请输入产品名称" />
+            </label>
+            <label class="product-edit-field">
+              <span>分类</span>
+              <select id="edit-category-select">
+                <option value="">选择分类</option>
+              </select>
+            </label>
+            <label class="product-edit-field">
+              <span>单位</span>
+              <input class="input" id="edit-unit" type="text" value="个" placeholder="单位" />
+            </label>
+            <label class="product-edit-field">
+              <span>库存数量</span>
+              <input class="input" id="edit-quantity" type="number" min="0" value="0" placeholder="库存数量" />
+            </label>
+            <label class="product-edit-field">
+              <span>单价 (¥)</span>
+              <input class="input" id="edit-price" type="number" min="0" step="0.01" value="0" placeholder="单价" />
+            </label>
+            <label class="product-edit-field product-edit-full">
+              <span>产品描述</span>
+              <textarea class="input" id="edit-description" placeholder="输入产品描述（可选）"></textarea>
+            </label>
+          </div>
+
+          <p class="message" id="edit-product-message"></p>
+          <div class="product-edit-actions">
+            <button id="cancel-edit-product-button" type="button" class="btn btn-secondary">取消</button>
+            <button id="save-product-button" class="btn btn-primary">更新产品</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="page-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 库存管理系统. 保留所有权利.</p>
+      <div class="footer-links">
+        <a href="javascript:void(0)">隐私政策</a>
+        <a href="javascript:void(0)">使用条款</a>
+        <a href="javascript:void(0)">联系我们</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/static/assets/js/products.js?v=2026051101"></script>
+</body>
+</html>

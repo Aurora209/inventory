@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>仪表板 - 库存管理系统</title>
+  <link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" />
+</head>
+<body class="dashboard-page">
+  <header class="site-header">
+    <div class="header-content">
+      <div>
+        <h1>仪表板</h1>
+        <p>查看库存系统关键指标、预警和最近交易</p>
+      </div>
+      <div class="status" id="page-status">准备加载...</div>
+    </div>
+  </header>
+  <nav class="main-nav" id="main-nav"></nav>
+
+  <main class="layout dashboard-layout">
+    <section class="dashboard-summary" id="summary-cards"></section>
+
+    <section class="dashboard-panel">
+      <div class="dashboard-panel-title">
+        <h3>库存预警</h3>
+        <label class="dashboard-filter">
+          <span>分类：</span>
+          <select id="alert-category-filter"><option value="">全部分类</option></select>
+        </label>
+        <label class="dashboard-filter">
+          <span>显示条数：</span>
+          <select id="alert-limit-filter">
+            <option value="5" selected>5条</option>
+            <option value="10">10条</option>
+            <option value="20">20条</option>
+            <option value="50">50条</option>
+          </select>
+        </label>
+      </div>
+      <div class="dashboard-divider"></div>
+      <div class="warning-list" id="alerts-body"></div>
+    </section>
+
+    <section class="dashboard-panel recent-panel">
+      <div class="dashboard-panel-title">
+        <h3>近期交易</h3>
+        <div class="dashboard-filters">
+          <label class="dashboard-filter">
+            <span>分类：</span>
+            <select id="transaction-category-filter"><option value="">全部分类</option></select>
+          </label>
+          <label class="dashboard-filter">
+            <span>类型：</span>
+            <select id="transaction-type-filter">
+              <option value="all">全部</option>
+              <option value="in">入库</option>
+              <option value="out">出库</option>
+            </select>
+          </label>
+          <label class="dashboard-filter">
+            <span>显示条数：</span>
+            <select id="transaction-limit-filter">
+              <option value="5" selected>5条</option>
+              <option value="10">10条</option>
+              <option value="20">20条</option>
+              <option value="50">50条</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="dashboard-divider"></div>
+      <div class="transaction-list" id="transactions-body"></div>
+    </section>
+
+    <p class="message" id="page-message"></p>
+  </main>
+
+  <footer class="page-footer"><div class="footer-content"><p>&copy; 2025 库存管理系统. 保留所有权利.</p><div class="footer-links"><a href="javascript:void(0)">隐私政策</a><a href="javascript:void(0)">使用条款</a><a href="javascript:void(0)">联系我们</a></div></div></footer>
+  <script type="module" src="/static/assets/js/dashboard.js?v=2026071201"></script>
+</body>
+</html>

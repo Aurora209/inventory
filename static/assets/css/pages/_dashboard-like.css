@@ -1,0 +1,110 @@
+/* Dashboard-like content layout for products and order pages */
+/* Note: stat card visual styles are in base.css; this file handles page layout only */
+
+.products-page,
+.order-page .layout.main-content {
+  max-width: var(--nav-width);
+  padding: 0 0 34px;
+}
+
+.products-page > .grid,
+.order-page .layout.main-content > .grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 30px !important;
+}
+
+.products-page > .section,
+.order-page .layout.main-content > .section {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  padding: 22px 20px 20px;
+  margin-top: 0 !important;
+  margin-bottom: 22px;
+}
+
+.products-toolbar-card,
+.order-page .layout.main-content > .section {
+  overflow: hidden;
+}
+
+.products-page .section-header,
+.order-page .section-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.products-page .section-header h3,
+.order-page .section-header h3 {
+  color: var(--dark-color);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.products-toolbar-image-style {
+  grid-template-columns: auto minmax(280px, 1fr) 180px;
+}
+
+.products-search-input.image-style,
+.products-compact-select.image-style,
+.order-page .input,
+.order-page select {
+  height: 42px;
+  border-radius: 8px;
+  border-color: var(--border-color);
+  background: white;
+}
+
+.products-action-btn,
+.order-page .btn {
+  border-radius: 6px;
+  min-height: 40px;
+  box-shadow: none;
+}
+
+.products-page .table-container,
+.order-page .table-container {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: auto;
+}
+
+.products-page .data-table th,
+.order-page .data-table th {
+  background: var(--background-color);
+}
+
+.products-page .data-table tr:last-child td,
+.order-page .data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.products-page .message,
+.order-page .message {
+  margin-top: 12px;
+  color: var(--secondary-color);
+}
+
+@media (max-width: 900px) {
+  .products-page,
+  .order-page .layout.main-content {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .products-page > .grid,
+  .order-page .layout.main-content > .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .products-page > .grid,
+  .order-page .layout.main-content > .grid {
+    grid-template-columns: 1fr;
+  }
+}

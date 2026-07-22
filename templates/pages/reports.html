@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>报表中心 - 库存管理系统</title><link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" /></head>
+<body>
+  <header class="site-header"><div class="header-content"><div><h1>报表中心</h1><p>BOM导出、物料需求、成本分析与采购清单</p></div><div class="status" id="page-status">准备加载...</div></div></header>
+  <nav class="main-nav" id="main-nav"></nav>
+  <main class="layout main-content reports-page">
+    <section class="section"><div class="section-header"><h3>报表类型</h3><div class="filters compact"><button class="report-tab btn btn-primary active" data-tab="bom-export">BOM导出</button><button class="report-tab btn btn-secondary" data-tab="material">物料需求计划</button><button class="report-tab btn btn-secondary" data-tab="cost">成本分析</button><button class="report-tab btn btn-secondary" data-tab="purchase">采购清单</button></div></div><p class="message" id="page-message"></p></section>
+    <section class="section" id="bom-export-section"><div class="section-header"><h3>BOM 数据导出</h3><button id="export-bom-button" class="btn btn-primary">📊 导出Excel</button></div><p>导出所有已配置 BOM 的产品、物料、数量、单位、单价和小计。</p></section>
+    <section class="section" id="report-table-section"><div class="section-header"><h3 id="report-title">报表数据</h3><button id="export-current-csv" class="btn btn-secondary">导出当前CSV</button></div><div class="table-container"><table class="data-table"><thead id="report-head"></thead><tbody id="report-body"></tbody></table></div></section>
+    <section class="grid two-col" style="margin-top:16px;"><article class="card"><div class="section-header"><h3>装箱单工具</h3></div><p>输入订单 ID 后生成装箱清单。</p><div class="filters"><input class="input" id="packing-order-id" type="number" min="1" placeholder="订单 ID" /><button id="load-packing-order" class="btn btn-primary">加载订单</button></div><div id="packing-summary"></div></article><article class="card"><div class="section-header"><h3>辅助工具</h3></div><ul><li><a href="/pages/exchange-rate.html">汇率换算</a></li><li><a href="/pages/unit-converter.html">单位换算</a></li><li><a href="/pages/packing-list.html">装箱单</a></li></ul></article></section>
+  </main>
+  <footer class="page-footer"><div class="footer-content"><p>&copy; 2025 库存管理系统. 保留所有权利.</p><div class="footer-links"><a href="javascript:void(0)">隐私政策</a><a href="javascript:void(0)">使用条款</a><a href="javascript:void(0)">联系我们</a></div></div></footer>
+  <script type="module" src="/static/assets/js/reports.js?v=2026051301"></script>
+</body>
+</html>

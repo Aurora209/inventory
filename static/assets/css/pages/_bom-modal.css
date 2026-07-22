@@ -1,0 +1,176 @@
+/* Add BOM modal aligned with reference project */
+.bom-page-body #add-bom-modal {
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: auto;
+  background: rgba(15, 23, 42, 0.2);
+}
+
+.bom-page-body .add-bom-modal-content {
+  width: 95vw;
+  height: 95vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.22);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.bom-page-body .add-bom-modal-header {
+  height: 76px;
+  padding: 0 18px;
+  border-bottom: 1px solid #d7dee7;
+  flex-shrink: 0;
+}
+
+.bom-page-body .add-bom-modal-header h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.bom-page-body .add-bom-modal-header .modal-close {
+  color: #64748b;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.bom-page-body .add-bom-modal-body {
+  padding: 28px 18px 36px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.bom-page-body .add-bom-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px 16px;
+}
+
+.bom-page-body .add-bom-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.bom-page-body .add-bom-field.add-bom-full {
+  grid-column: 1 / -1;
+}
+
+.bom-page-body .add-bom-field input,
+.bom-page-body .add-bom-field select,
+.bom-page-body .add-bom-field textarea {
+  width: 100%;
+  height: 39px;
+  padding: 8px 12px;
+  border: 1px solid #d7dee7;
+  border-radius: 5px;
+  background: #fff;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 400;
+  box-shadow: none;
+}
+
+.bom-page-body .add-bom-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.bom-page-body .add-bom-field input[readonly] {
+  background: #fff;
+}
+
+.bom-page-body .add-bom-field small {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.bom-page-body .add-bom-section {
+  margin-top: 38px;
+}
+
+.bom-page-body .add-bom-section h4 {
+  margin: 0 0 24px;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.bom-page-body .add-bom-wide-button {
+  width: 100%;
+  height: 41px;
+  margin-top: 30px;
+  border-radius: 4px;
+  background: #737d86;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  border: none;
+}
+
+.bom-page-body .add-bom-items-table-wrap {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 14px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.bom-page-body .add-bom-items-table th {
+  height: 50px;
+  padding: 12px 10px;
+  background: #fff !important;
+  border-bottom: 1px solid #d7dee7;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 900;
+  text-align: left;
+}
+
+.bom-page-body .add-bom-items-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 15px;
+}
+
+.bom-page-body .add-bom-items-table .empty-state {
+  height: 160px;
+  text-align: left;
+}
+
+.bom-page-body .add-bom-items-table .empty-content {
+  align-items: flex-start;
+  padding: 22px 8px;
+}
+
+.bom-page-body .add-bom-items-table .empty-icon {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.bom-page-body .add-bom-actions {
+  position: sticky;
+  bottom: 0;
+  justify-content: flex-end;
+  margin: 22px -18px -36px;
+  padding: 18px;
+  background: #fff;
+  border-top: 1px solid #eef2f7;
+}
+
+@media (max-width: 760px) {
+  .bom-page-body .add-bom-grid {
+    grid-template-columns: 1fr;
+  }
+}

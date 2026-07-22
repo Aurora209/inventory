@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>采购订单 - 库存管理系统</title>
+  <link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" />
+</head>
+<body class="order-page purchase">
+  <header class="site-header">
+    <div class="header-content">
+      <div>
+        <h1>采购订单</h1>
+        <p>采购订单、供应商往来与到货计划管理</p>
+      </div>
+      <div class="status" id="page-status">准备加载...</div>
+    </div>
+  </header>
+  <nav class="main-nav" id="main-nav"></nav>
+
+  <main class="layout main-content">
+    <section class="grid two-col">
+      <article class="card order-summary-card stat-card">
+        <div class="stat-icon">📋</div><div><p id="stat-total-orders" class="order-highlight stat-value">-</p><p class="stat-label">采购订单总数</p></div>
+      </article>
+      <article class="card order-summary-card stat-card">
+        <div class="stat-icon">⏳</div><div><p id="stat-pending-orders" class="order-highlight stat-value">-</p><p class="stat-label">待到货采购单</p></div>
+      </article>
+      <article class="card order-summary-card stat-card">
+        <div class="stat-icon">✅</div><div><p id="stat-completed-orders" class="order-highlight stat-value">-</p><p class="stat-label">已入库采购单</p></div>
+      </article>
+      <article class="card order-summary-card stat-card">
+        <div class="stat-icon">💰</div><div><p id="stat-total-amount" class="order-highlight stat-value">-</p><p class="stat-label">采购总金额</p></div>
+      </article>
+    </section>
+
+    <div class="modal-overlay fullscreen" id="create-order-section" style="display:none;">
+      <div class="modal-content purchase-order-modal" style="width:100vw; height:100vh; max-width:none; max-height:none; border-radius:0; overflow:hidden; ">
+        <div class="modal-header purchase-order-modal-header">
+          <h3>添加采购订单</h3>
+          <button id="close-create-order-section" type="button" class="modal-close" aria-label="关闭">×</button>
+        </div>
+        <div class="modal-body purchase-order-modal-body">
+          <label class="purchase-order-field">
+            <span>订单号 *</span>
+            <input class="input" id="create-order-number-display" type="text" placeholder="不填则自动生成，可手动输入订单号" />
+          </label>
+          <label class="purchase-order-field">
+            <span>供应商 *</span>
+            <input class="input" id="create-customer-supplier" type="text" placeholder="输入供应商名称" />
+          </label>
+          <label class="purchase-order-field">
+            <span>订单日期 *</span>
+            <input class="input" id="create-order-date" type="date" />
+          </label>
+          <label class="purchase-order-field">
+            <span>卖家自定义信息</span>
+            <textarea class="input" id="create-notes" placeholder="输入备注信息"></textarea>
+          </label>
+
+          <input class="input" id="create-seller-name" type="hidden" />
+          <input class="input" id="create-seller-phone" type="hidden" />
+          <input class="input" id="create-seller-address" type="hidden" />
+          <input class="input" id="create-seller-taxno" type="hidden" />
+          <input class="input" id="create-seller-note" type="hidden" />
+
+          <div class="purchase-order-items-card">
+            <h4>订单明细</h4>
+            <div class="table-container purchase-order-items-table">
+              <table class="data-table">
+                <thead><tr><th>产品名称</th><th>SKU</th><th>单价</th><th>单位</th><th>数量</th><th>金额</th><th>操作</th></tr></thead>
+                <tbody id="create-order-items-body"></tbody>
+              </table>
+            </div>
+            <button id="add-order-item-row" type="button" class="btn btn-secondary">添加明细</button>
+          </div>
+
+          <label class="purchase-order-field">
+            <span>快递运费(¥)</span>
+            <input class="input" id="create-shipping-cost" type="number" min="0" step="0.01" value="0" placeholder="0" />
+          </label>
+          <label class="purchase-order-field">
+            <span>订单总金额</span>
+            <div class="purchase-order-total" id="create-order-total-display">¥0.00</div>
+          </label>
+          <label class="purchase-order-field">
+            <span>状态</span>
+            <select id="create-order-status-display" disabled>
+              <option value="pending">待处理</option>
+            </select>
+          </label>
+
+          <p class="message" id="create-order-message"></p>
+        </div>
+        <div class="purchase-order-modal-actions">
+          <button id="cancel-create-order-section" type="button" class="btn btn-secondary">取消</button>
+          <button id="create-order-button" class="btn btn-primary">创建订单</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="section order-list-section" style="margin-top:16px;">
+      <div id="order-detail-panel" class="card" style="display:none; margin-bottom:16px;">
+        <div class="section-header">
+          <h3>采购订单详情</h3>
+          <button id="close-order-detail" class="btn btn-secondary btn-sm">关闭</button>
+        </div>
+        <div id="order-detail-content"></div>
+        <div class="form-actions" style="justify-content:flex-start;">
+          <button id="edit-current-order-button" class="btn btn-primary">编辑采购订单</button>
+          <button id="print-current-order-button" class="btn btn-info">打印采购单</button>
+          <button id="open-packing-list-button" class="btn btn-secondary">查看装箱单</button>
+        </div>
+      </div>
+
+      <div id="edit-order-panel" class="card purchase-order-edit-panel" style="display:none; margin-bottom:16px;">
+        <div class="purchase-order-edit-header">
+          <div>
+            <p class="po-kicker">Purchase Order</p>
+            <h3>编辑采购订单</h3>
+            <p class="po-subtitle">供应商、采购明细、费用与到货状态</p>
+          </div>
+          <div class="po-header-meta">
+            <span class="po-number" id="edit-order-number-display">PO-</span>
+            <button id="close-edit-order" class="btn btn-secondary btn-sm">关闭</button>
+          </div>
+        </div>
+
+        <div class="po-edit-sheet">
+          <section class="po-business-grid">
+            <div class="po-business-block">
+              <div class="po-block-title">Vendor</div>
+              <label class="order-edit-field"><span>供应商名称 *</span><input class="input" id="edit-customer-supplier" type="text" placeholder="请输入供应商名称" /></label>
+              <label class="order-edit-field"><span>供应商电话</span><input class="input" id="edit-seller-phone" type="text" placeholder="请输入供应商电话" /></label>
+              <label class="order-edit-field"><span>供应商地址</span><input class="input" id="edit-seller-address" type="text" placeholder="请输入供应商地址" /></label>
+            </div>
+
+            <div class="po-business-block">
+              <div class="po-block-title">Order Details</div>
+              <div class="po-detail-grid">
+                <label class="order-edit-field"><span>订单日期 *</span><input class="input" id="edit-order-date" type="date" /></label>
+                <label class="order-edit-field"><span>订单状态</span><select id="edit-order-status">
+                  <option value="pending">待处理</option>
+                  <option value="completed">已完成</option>
+                  <option value="cancelled">已取消</option>
+                </select></label>
+                <label class="order-edit-field"><span>卖方名称</span><input class="input" id="edit-seller-name" type="text" placeholder="请输入卖方名称" /></label>
+                <label class="order-edit-field"><span>卖方税号</span><input class="input" id="edit-seller-taxno" type="text" placeholder="请输入卖方税号" /></label>
+              </div>
+              <label class="order-edit-field"><span>卖方备注</span><input class="input" id="edit-seller-note" type="text" placeholder="请输入卖方备注" /></label>
+            </div>
+          </section>
+
+          <section class="po-line-section">
+            <div class="po-line-header">
+              <div>
+                <div class="po-block-title">Line Items</div>
+                <p>采购产品、描述、数量、单价与行金额</p>
+              </div>
+              <button id="add-edit-item-row" class="btn btn-secondary">添加采购明细</button>
+            </div>
+            <div class="table-container po-line-table-wrap">
+              <table class="data-table po-line-table">
+                <thead><tr><th>产品</th><th>采购说明</th><th>数量</th><th>单位</th><th>采购单价</th><th>行金额</th><th>操作</th></tr></thead>
+                <tbody id="edit-order-items-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="po-footer-grid">
+            <label class="order-edit-field po-notes-field"><span>采购备注</span><textarea class="input" id="edit-notes" placeholder="请输入采购备注"></textarea></label>
+            <div class="po-totals-box">
+              <label class="order-edit-field"><span>运费 / 杂费(¥)</span><input class="input" id="edit-shipping-cost" type="number" min="0" step="0.01" value="0" placeholder="请输入运费或杂费" /></label>
+              <div class="po-total-row"><span>Subtotal</span><strong id="edit-order-subtotal-display">¥0.00</strong></div>
+              <div class="po-total-row"><span>Freight / Fees</span><strong id="edit-order-shipping-display">¥0.00</strong></div>
+              <div class="po-total-row po-grand-total"><span>Total</span><strong id="edit-order-total-display">¥0.00</strong></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="purchase-order-edit-actions">
+          <p class="message" id="edit-order-message"></p>
+          <div>
+            <button id="save-order-edit-button" class="btn btn-primary">保存采购订单</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header order-list-header">
+        <h3>采购订单列表</h3>
+        <button id="open-create-order-section" class="btn btn-primary">➕ 添加采购订单</button>
+      </div>
+      <div class="filters order-list-filters">
+        <input class="input" id="order-search-input" type="search" placeholder="搜索订单号 / 供应商" style="display:none;" />
+        <select id="status-select">
+          <option value="">所有状态</option>
+          <option value="pending">待处理</option>
+          <option value="completed">已完成</option>
+          <option value="cancelled">已取消</option>
+        </select>
+        <button id="search-button" class="btn btn-primary" style="display:none;">查询采购单</button>
+      </div>
+      <div class="table-container order-list-table">
+        <table class="data-table">
+          <thead><tr><th>订单号</th><th>供应商</th><th>日期</th><th>金额</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody id="orders-body"></tbody>
+        </table>
+      </div>
+      <p class="message" id="page-message"></p>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 库存管理系统. 保留所有权利.</p>
+      <div class="footer-links">
+        <a href="javascript:void(0)">隐私政策</a>
+        <a href="javascript:void(0)">使用条款</a>
+        <a href="javascript:void(0)">联系我们</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>window.ORDER_PAGE_TYPE = 'purchase';</script>
+  <script type="module" src="/static/assets/js/orders-page.js?v=2026060101"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+backend.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/*.db
+data/*.db-shm
+data/*.db-wal
+host_data/
+host_logs/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.tar
+*.zip
+
+# Environment files
+.env
+.env.*
+
+# Local exports / temp files
+*.tmp
+*.bak
+*.old
+*.clobbered.*
+
+# Excel temporary files
+~$*.xlsx
+
+# Test data files
+tests/test_*.py
+tests/__pycache__/

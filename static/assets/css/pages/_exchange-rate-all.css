@@ -1,0 +1,346 @@
+/* Exchange rate page alignment with reference UI */
+.exchange-rate-page {
+  padding-bottom: 34px;
+}
+
+.exchange-rate-page .section {
+  margin-bottom: 30px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+}
+
+.exchange-rate-page .section-header {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.exchange-rate-page .last-update,
+.exchange-rate-page .filters.compact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+  color: var(--secondary-color);
+  font-size: 14px;
+}
+
+.exchange-rate-page .rates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.exchange-rate-page .rate-card {
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--light-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.exchange-rate-page .rate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.10);
+}
+
+.exchange-rate-page .currency-flag {
+  flex: 0 0 30px;
+  font-size: 24px;
+  line-height: 1;
+  text-align: center;
+}
+
+.exchange-rate-page .currency-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.exchange-rate-page .currency-name {
+  color: var(--dark-color);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.exchange-rate-page .currency-code {
+  color: var(--secondary-color);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.exchange-rate-page .exchange-rate {
+  margin-left: auto;
+  text-align: right;
+}
+
+.exchange-rate-page .rate-middle {
+  color: var(--primary-color);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.exchange-rate-page .change-indicator {
+  flex: 0 0 auto;
+  min-width: 58px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.exchange-rate-page .change-indicator.up {
+  background: #e8f5e8;
+  color: var(--success-color);
+}
+
+.exchange-rate-page .change-indicator.down {
+  background: #ffebee;
+  color: var(--danger-color);
+}
+
+.exchange-rate-page .change-indicator.neutral {
+  background: #f1f5f9;
+  color: var(--secondary-color);
+}
+
+.exchange-rate-page .converter-container {
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.exchange-rate-page .converter-form,
+.exchange-rate-page .conversion-history {
+  flex: 1 1 360px;
+  min-width: 300px;
+}
+
+.exchange-rate-page .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exchange-rate-page .form-group label,
+.exchange-rate-page .conversion-result > label,
+.exchange-rate-page .conversion-history h4 {
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+.exchange-rate-page .amount-input,
+.exchange-rate-page .currency-select,
+.exchange-rate-page .input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: white;
+  font-size: 15px;
+}
+
+.exchange-rate-page .form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 20px 0 24px;
+}
+
+.exchange-rate-page .swap-button {
+  flex: 0 0 auto;
+  padding-bottom: 0;
+}
+
+.exchange-rate-page .btn-swap {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--light-color);
+  color: var(--dark-color);
+  font-size: 20px;
+}
+
+.exchange-rate-page .btn-swap:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.exchange-rate-page .conversion-result {
+  margin-top: 0;
+  padding: 20px;
+  background: var(--light-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.exchange-rate-page .result-value {
+  margin: 12px 0 8px;
+  color: var(--primary-color);
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.exchange-rate-page .rate-info {
+  min-height: 22px;
+  color: var(--secondary-color);
+  font-size: 14px;
+  text-align: center;
+}
+
+.exchange-rate-page .conversion-history {
+  padding: 20px;
+  background: var(--light-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.exchange-rate-page .history-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.exchange-rate-page .history-item {
+  display: grid;
+  grid-template-columns: minmax(92px, 1fr) 20px minmax(110px, 1fr) minmax(88px, auto) minmax(72px, auto);
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+}
+
+.exchange-rate-page .history-item:last-child {
+  border-bottom: 0;
+}
+
+.exchange-rate-page .history-amount,
+.exchange-rate-page .history-result {
+  color: var(--dark-color);
+  font-weight: 700;
+}
+
+.exchange-rate-page .history-arrow,
+.exchange-rate-page .history-rate,
+.exchange-rate-page .history-date,
+.exchange-rate-page .no-history {
+  color: var(--secondary-color);
+}
+
+.exchange-rate-page .history-rate,
+.exchange-rate-page .history-date {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.exchange-rate-page .no-history {
+  padding: 32px 12px;
+  text-align: center;
+}
+
+.exchange-rate-page #history-summary.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.exchange-rate-page #history-summary .stat-card {
+  height: auto !important;
+  min-height: 86px !important;
+  padding: 16px 20px !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+}
+
+@media (max-width: 768px) {
+  .exchange-rate-page .section-header,
+  .exchange-rate-page .form-row,
+  .exchange-rate-page .converter-container,
+  .exchange-rate-page .filters.compact {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exchange-rate-page .swap-button {
+    align-self: center;
+  }
+
+  .exchange-rate-page .history-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .exchange-rate-page .history-arrow {
+    display: none;
+  }
+}
+/* Exchange rate card overflow fix */
+.exchange-rate-page .rates-grid {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.exchange-rate-page .rate-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(64px, 1fr) auto;
+  grid-template-areas:
+    "flag info change"
+    "flag rate change";
+  column-gap: 10px;
+  row-gap: 4px;
+  overflow: hidden;
+}
+
+.exchange-rate-page .currency-flag {
+  grid-area: flag;
+  align-self: center;
+  flex-basis: auto;
+  width: 34px;
+}
+
+.exchange-rate-page .currency-info {
+  grid-area: info;
+  min-width: 0;
+}
+
+.exchange-rate-page .exchange-rate {
+  grid-area: rate;
+  margin-left: 0;
+  text-align: left;
+  min-width: 0;
+}
+
+.exchange-rate-page .rate-middle {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exchange-rate-page .change-indicator {
+  grid-area: change;
+  align-self: center;
+  max-width: 68px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .exchange-rate-page .rates-grid {
+    grid-template-columns: 1fr;
+  }
+}

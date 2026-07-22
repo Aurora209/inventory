@@ -1,0 +1,81 @@
+/* Sales order list uses the same visual structure as purchase orders */
+.order-page.sales .order-list-section {
+  padding: 0 !important;
+  border: 1px solid #e1e7ef !important;
+  border-radius: 8px !important;
+  box-shadow: 0 3px 11px rgba(31, 45, 61, 0.11) !important;
+  overflow: hidden !important;
+  background: #fff !important;
+}
+
+.order-page.sales .order-list-header {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px !important;
+  margin: 0 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.order-page.sales .order-list-header h3 {
+  color: #111827;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.order-page.sales #open-create-order-section {
+  min-height: 36px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: #007bff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.order-page.sales .order-list-filters {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  padding: 20px !important;
+  margin: 0 !important;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.order-page.sales .order-list-filters select {
+  width: auto;
+  min-width: 100px;
+  height: 36px;
+  padding: 0 32px 0 12px;
+  border: 1px solid #d7dee7;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.order-page.sales .order-list-table {
+  margin: 20px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: auto;
+}
+
+.order-page.sales .order-list-table .data-table th {
+  height: 49px;
+  padding: 14px 12px;
+  background: #f8f9fa !important;
+  color: #2f3742;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.order-page.sales .order-list-table .data-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eef2f7;
+}

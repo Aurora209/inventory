@@ -1,0 +1,30 @@
+/* Global sticky footer: keep footer at bottom on short pages */
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > .layout.main-content,
+body > main.main-content {
+  flex: 1 0 auto;
+}
+
+.page-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+/* Flex body fix: keep top navigation full page width instead of shrink-to-content */
+.main-nav {
+  width: 100%;
+}
+
+/* Sticky footer support for dashboard layout (dashboard uses .dashboard-layout, not .main-content) */
+body > main.layout {
+  flex: 1 0 auto;
+}
+

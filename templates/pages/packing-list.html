@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>装箱单工具 - 库存管理系统</title><link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" /></head>
+<body>
+  <header class="site-header"><div class="header-content"><div><h1>装箱单工具</h1><p>订单包装规格、箱数统计与打印</p></div><div class="status" id="page-status">等待输入订单 ID</div></div></header>
+  <nav class="main-nav" id="main-nav"></nav>
+  <main class="layout main-content packing-list-page"><section class="section"><div class="section-header"><h3>装箱单查询</h3><div class="filters compact"><input class="input" id="order-id-input" type="number" min="1" placeholder="输入订单 ID" /><button id="load-order-button" class="btn btn-primary">加载订单</button><button id="save-packing-list" class="btn btn-secondary" style="display:none;">保存包装规格</button><button id="print-packing-list" class="btn btn-secondary" style="display:none;">打印装箱单</button><button id="print-labels" class="btn btn-primary" style="display:none;">打印箱唛标签</button></div></div><div id="packing-content"></div><p class="message" id="page-message"></p></section></main>
+  <footer class="page-footer"><div class="footer-content"><p>&copy; 2025 库存管理系统. 保留所有权利.</p><div class="footer-links"><a href="javascript:void(0)">隐私政策</a><a href="javascript:void(0)">使用条款</a><a href="javascript:void(0)">联系我们</a></div></div></footer>
+  <script type="module" src="/static/assets/js/packing-list.js?v=2026051301"></script>
+</body>
+</html>

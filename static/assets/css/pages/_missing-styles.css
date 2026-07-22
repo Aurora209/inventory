@@ -1,0 +1,244 @@
+/**
+ * _missing-styles.css — Classes used in templates but not yet defined
+ *
+ * Covers: unit-converter, reports, categories modal, labels,
+ *         packing-list, and shared utility classes.
+ */
+
+/* ── Unit Converter Page ─────────────────────────── */
+.unit-converter-page {
+  padding-bottom: 34px;
+}
+
+.unit-converter-page .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.unit-converter-page .form-grid > label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.unit-converter-page .form-grid > label span {
+  font-size: 14px;
+  color: var(--secondary-color);
+}
+
+.unit-converter-page .full-width {
+  grid-column: 1 / -1;
+}
+
+.unit-converter-page .metric-card {
+  padding: 18px 20px;
+  background: var(--light-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.unit-converter-page .metric-label {
+  font-size: 14px;
+  color: var(--secondary-color);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.unit-converter-page .metric-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary-color);
+  line-height: 1.2;
+}
+
+.unit-converter-page .reference-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.unit-converter-page .reference-grid .reference-item {
+  padding: 10px 14px;
+  background: var(--light-color);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.unit-converter-page .stack-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.unit-converter-page .stack-list .stack-item {
+  padding: 12px 16px;
+  background: var(--light-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* ── Reports Page ────────────────────────────────── */
+.reports-page {
+  padding-bottom: 34px;
+}
+
+.reports-page .report-tab {
+  border-radius: 6px;
+  margin-right: 4px;
+}
+
+.reports-page .report-tab.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* ── Labels / Packing List Pages ─────────────────── */
+.labels {
+  padding-bottom: 34px;
+}
+
+.label-panel {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.label-subpanel {
+  background: var(--light-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.label-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.label-toolbar select,
+.label-toolbar input {
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.label-table-wrap {
+  overflow-x: auto;
+}
+
+.carton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.carton-grid .carton-item {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.carton-grid .carton-item h4 {
+  margin: 0 0 10px;
+  color: var(--dark-color);
+  font-size: 15px;
+}
+
+.packing-list-page {
+  padding-bottom: 34px;
+}
+
+.packing-list-page .section {
+  margin-bottom: 30px;
+}
+
+/* ── Categories Modal ────────────────────────────── */
+.categories-page {
+  padding-bottom: 34px;
+}
+
+.categories-page .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.categories-page .form-grid > label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Labels Modal ────────────────────────────────── */
+.labels .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.labels .form-grid > label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── Shared Utilities ────────────────────────────── */
+.text-right {
+  text-align: right;
+}
+
+.total-cost {
+  color: var(--success-color);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.recent-panel {
+  /* Alias for dashboard-panel — handled by _dashboard.css */
+}
+
+.production-plan-panel {
+  /* Alias for production-panel — handled by base.css */
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .unit-converter-page .form-grid,
+  .categories-page .form-grid,
+  .labels .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .label-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .carton-grid {
+    grid-template-columns: 1fr;
+  }
+}

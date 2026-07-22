@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>箱唛标签打印 - 库存管理系统</title>
+  <link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" />
+  <link rel="stylesheet" href="/static/assets/css/label-print.css?v=2026062214" />
+</head>
+<body>
+  <header class="site-header no-label-print">
+    <div class="header-content">
+      <div>
+        <h1>箱唛标签打印</h1>
+        <p>从订单/装箱单生成 100mm × 100mm 箱子标签，也可手工录入或导入 CSV</p>
+      </div>
+      <div class="status" id="page-status">可直接录入</div>
+    </div>
+  </header>
+  <nav class="main-nav no-label-print" id="main-nav"></nav>
+
+  <main class="layout main-content label-app" id="appLayout">
+    <section class="label-panel input-panel no-label-print">
+      <div class="section-header">
+        <h3>标签数据</h3>
+        <div class="filters compact">
+          <input class="input" id="order-id-input" type="number" min="1" placeholder="订单 ID" />
+          <button id="load-order-button" class="btn btn-primary">从订单生成</button>
+        </div>
+      </div>
+      <p class="message" id="page-message">一行对应一张标签；尺寸、磅数会自动换算。</p>
+      <div class="label-size-selector-top">
+        <label>标签纸尺寸：<select id="labelSizeSelectTop">
+          <option value="100x100">100mm × 100mm</option>
+          <option value="150x100">150mm × 100mm</option>
+        </select></label>
+      </div>
+
+      <div class="toolbar label-toolbar">
+        <button id="addRowBtn" class="btn btn-secondary">新增一行</button>
+        <button id="add10Btn" class="btn btn-secondary">新增 10 行</button>
+        <button id="fillSampleBtn" class="btn btn-secondary">填入示例</button>
+        <button id="clearBtn" class="btn btn-danger">清空数据</button>
+      </div>
+      <div class="toolbar label-toolbar">
+        <button id="exportJsonBtn" class="btn btn-secondary">导出 JSON</button>
+        <button id="importJsonBtn" class="btn btn-secondary">导入 JSON</button>
+        <button id="importCsvBtn" class="btn btn-secondary">导入 CSV</button>
+        <input id="jsonFileInput" type="file" accept="application/json" hidden />
+        <input id="csvFileInput" type="file" accept=".csv,text/csv" hidden />
+      </div>
+
+      <div class="label-subpanel">
+        <h4>公共字段批量填充</h4>
+        <div class="label-form-grid">
+          <input id="bulkSku" class="input" placeholder="SKU" />
+          <input id="bulkName" class="input" placeholder="NAME" />
+          <input id="bulkQty" class="input" placeholder="QTY" />
+          <input id="bulkPoNo" class="input" placeholder="PO NO" />
+          <input id="bulkSizeCm" class="input" placeholder="SIZE CM，如 40x25.5x17（自动换算 inch）" />
+          <input id="bulkGwKg" class="input" placeholder="G.W. KG（自动换算 LBS）" />
+          <input id="bulkNwKg" class="input" placeholder="N.W. KG（自动换算 LBS）" />
+        </div>
+        <div class="toolbar label-toolbar">
+          <button id="applyBulkAllBtn" class="btn btn-primary">应用到所有行</button>
+          <button id="applyBulkEmptyBtn" class="btn btn-secondary">只填空白行</button>
+        </div>
+      </div>
+
+      <div class="label-subpanel">
+        <h4>自动箱号</h4>
+        <div class="carton-grid">
+          <label><span>前缀</span><input id="cartonPrefix" class="input" value="C" /></label>
+          <label><span>起始号</span><input id="cartonStart" class="input" type="number" value="1" /></label>
+          <label><span>位数</span><input id="cartonDigits" class="input" type="number" value="3" /></label>
+          <label><span>数量</span><input id="cartonCount" class="input" type="number" value="10" /></label>
+          <button id="generateCartonBtn" class="btn btn-primary">生成</button>
+        </div>
+      </div>
+
+      <div class="label-table-wrap">
+        <table class="input-table" id="inputTable">
+          <colgroup>
+            <col data-col="0" />
+            <col data-col="1" />
+            <col data-col="2" />
+            <col data-col="3" />
+            <col data-col="4" />
+            <col data-col="5" />
+            <col data-col="6" />
+            <col data-col="7" />
+            <col data-col="8" />
+          </colgroup>
+          <thead><tr><th>SKU</th><th>NAME</th><th>QTY</th><th>PO NO</th><th>CARTON NO</th><th>SIZE</th><th>G.W.</th><th>N.W.</th><th>操作</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="resizer no-label-print" id="panelResizer" title="拖动调整宽度"></div>
+
+    <section class="label-panel preview-panel">
+      <div class="preview-toolbar no-label-print">
+        <div>
+          <h3>打印预览</h3>
+          <p class="message">按标签纸尺寸分页打印。</p>
+        </div>
+        <div class="label-size-selector">
+          <select id="labelSizeSelect">
+            <option value="100x100">100mm × 100mm</option>
+            <option value="150x100">150mm × 100mm</option>
+          </select>
+        </div>
+        <button id="printBtn" class="btn btn-primary">打印或另存 PDF</button>
+      </div>
+      <div class="labels" id="labels"></div>
+    </section>
+  </main>
+
+  <template id="rowTemplate">
+    <tr>
+      <td><input data-key="sku" /></td>
+      <td><textarea data-key="name"></textarea></td>
+      <td><input data-key="qty" /></td>
+      <td><input data-key="poNo" /></td>
+      <td><input data-key="cartonNo" /></td>
+      <td><input data-key="sizeCm" /></td>
+      <td><input data-key="gwKg" /></td>
+      <td><input data-key="nwKg" /></td>
+      <td><button type="button" class="btn btn-secondary delete-row">删除</button></td>
+    </tr>
+  </template>
+
+  <footer class="page-footer no-label-print">
+    <div class="footer-content">
+      <p>&copy; 2025 库存管理系统. 保留所有权利.</p>
+      <div class="footer-links">
+        <a href="javascript:void(0)">隐私政策</a>
+        <a href="javascript:void(0)">使用条款</a>
+        <a href="javascript:void(0)">联系我们</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/static/assets/js/labels.js?v=2026061902"></script>
+</body>
+</html>

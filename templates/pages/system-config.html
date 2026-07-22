@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>系统配置 - 库存管理系统</title>
+  <link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <div>
+        <h1>系统配置</h1>
+        <p>HTML5 + CSS + 原生 JavaScript 重写版</p>
+      </div>
+      <div class="status" id="api-status">正在检查 API...</div>
+    </div>
+  </header>
+  <nav class="main-nav" id="main-nav"></nav>
+
+  <main class="layout main-content">
+    <section class="section hero">
+      <div class="section-header">
+        <h2>当前版本说明</h2>
+      </div>
+      <ul>
+        <li>前端已从 Vue / Vite 重写为 HTML5 + CSS + 原生 JavaScript</li>
+        <li>后端继续使用 Flask，并逐步整理接口和目录</li>
+        <li>核心模块已覆盖：产品、库存、订单、BOM、生产、报表</li>
+        <li>当前版本以“实际可用、便于维护”为优先目标</li>
+      </ul>
+    </section>
+
+    <section class="grid two-col" style="margin-top:16px;">
+      <article class="card">
+        <div class="section-header">
+          <h3>默认 API 地址</h3>
+        </div>
+        <p><code>当前页面地址</code>（本机可用 <code>http://127.0.0.1:5001</code>，局域网电脑使用 <code>http://本机IP:5001</code>）</p>
+        <div class="form-actions" style="justify-content:flex-start; margin-top:16px;">
+          <button id="check-health" class="btn btn-primary">检查后端健康状态</button>
+        </div>
+      </article>
+      <article class="card">
+        <div class="section-header">
+          <h3>当前重点</h3>
+        </div>
+        <p>继续收口订单、装箱单、打印与页面托管细节，让系统逐步进入稳定可用状态。</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 库存管理系统. 保留所有权利.</p>
+      <div class="footer-links">
+        <a href="javascript:void(0)">隐私政策</a>
+        <a href="javascript:void(0)">使用条款</a>
+        <a href="javascript:void(0)">联系我们</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { buildMainNav } from '/static/assets/js/api.js?v=2026062214';
+    document.getElementById('main-nav').innerHTML = buildMainNav('system-config');
+  </script>
+  <script type="module" src="/static/assets/js/app.js?v=2026051301"></script>
+</body>
+</html>

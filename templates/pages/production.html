@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>生产管理 - 库存管理系统</title>
+  <link rel="stylesheet" href="/static/assets/css/styles.css?v=2026062304" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <div>
+        <h1>生产管理</h1>
+        <p>制定和跟踪生产计划</p>
+      </div>
+      <div class="status" id="page-status">准备加载...</div>
+    </div>
+  </header>
+  <nav class="main-nav" id="main-nav"></nav>
+
+  <main class="layout main-content production-page">
+    <section class="section production-panel">
+      <div class="section-header production-panel-header">
+        <h3>BOM物料计算器</h3>
+        <button id="reset-calculator-button" class="btn btn-secondary production-reset-btn">🔄 重置</button>
+      </div>
+      <div class="production-divider"></div>
+      <div class="production-form-grid">
+        <div class="production-field-group">
+          <label for="calculator-product-select">选择产品</label>
+          <select id="calculator-product-select"></select>
+        </div>
+        <div class="production-field-group">
+          <label for="calculator-quantity-input">生产数量</label>
+          <input class="input" id="calculator-quantity-input" type="number" min="1" value="100" placeholder="生产数量" />
+        </div>
+      </div>
+      <div class="production-actions-row production-actions-row-split">
+        <button id="calculate-button" class="btn btn-primary production-primary-btn">计算需求</button>
+        <button id="print-requirements-button" class="btn btn-secondary production-ghost-btn">🖨️ 打印</button>
+      </div>
+      <div id="print-filter-bar" style="display:none; margin-bottom: 12px; padding: 10px 14px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <span style="font-size: 13px; color: #64748b; font-weight: 600; margin-right: 12px;">选择打印分组：</span>
+        <label style="font-size: 13px; margin-right: 18px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+          <input type="checkbox" id="print-filter-raw" checked /> 原材料
+        </label>
+        <label style="font-size: 13px; margin-right: 18px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+          <input type="checkbox" id="print-filter-packaging" checked /> 包装
+        </label>
+        <label style="font-size: 13px; margin-right: 18px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+          <input type="checkbox" id="print-filter-label" checked /> 标签
+        </label>
+      </div>
+      <div class="table-container production-table-wrap">
+        <table class="data-table production-data-table production-requirements-table">
+          <thead>
+            <tr><th>分组</th><th>物料名称</th><th>SKU</th><th>单位用量</th><th>当前库存</th><th>缺口</th><th>需求成本</th><th>需求总数量</th></tr>
+          </thead>
+          <tbody id="requirements-body"></tbody>
+        </table>
+      </div>
+      <div id="requirements-summary" class="production-summary-bar" style="display:none;">
+        <div class="production-summary-item">
+          <span class="production-summary-label">总成本</span>
+          <strong id="requirements-total-cost">¥0.00</strong>
+        </div>
+        <div class="production-summary-item">
+          <span class="production-summary-label">需求总数量</span>
+          <strong id="requirements-total-quantity">0</strong>
+        </div>
+      </div>
+      <p class="message" id="calculator-message"></p>
+    </section>
+
+    <section class="section production-panel production-plan-panel">
+      <div class="section-header production-panel-header production-panel-header-with-action">
+        <h3>生产计划</h3>
+        <div class="production-plan-toolbar">
+          <select id="plan-status-select" class="production-status-select">
+            <option value="">全部状态</option>
+            <option value="pending">待处理</option>
+            <option value="in_progress">进行中</option>
+            <option value="completed">已完成</option>
+            <option value="cancelled">已取消</option>
+          </select>
+          <button id="load-plans-button" class="btn btn-secondary production-ghost-btn">刷新</button>
+          <button id="open-create-plan-button" class="btn btn-primary production-primary-btn">＋ 新建生产计划</button>
+        </div>
+      </div>
+      <div class="production-divider"></div>
+
+      <div id="plans-empty-state" class="empty-state production-empty-state" style="display:none;">
+        <div class="production-empty-illustration">🏭</div>
+        <h4>暂无生产计划</h4>
+        <p>还没有创建任何生产计划</p>
+        <button id="empty-create-plan-button" class="btn btn-primary production-primary-btn">创建第一个生产计划</button>
+      </div>
+
+      <div id="plans-table-section" style="display:none;">
+        <div class="table-container production-table-wrap">
+          <table class="data-table production-data-table">
+            <thead>
+              <tr><th>ID</th><th>产品</th><th>SKU</th><th>计划数量</th><th>已产数量</th><th>计划日期</th><th>状态</th><th>备注</th><th>操作</th></tr>
+            </thead>
+            <tbody id="plans-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <p class="message" id="page-message"></p>
+    </section>
+
+    <div class="modal-overlay fullscreen" id="create-plan-modal" style="display:none;">
+      <div class="modal-content" style="width:100vw; height:100vh; max-width:none; max-height:none; border-radius:0; overflow:hidden; ">
+        <div class="modal-header">
+          <div>
+            <h3>新建生产计划</h3>
+            <p class="message">填写产品、数量和计划日期</p>
+          </div>
+          <button id="close-create-plan-modal" class="modal-close" aria-label="关闭">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="production-form-grid production-modal-grid">
+            <div class="production-field-group">
+              <label for="new-plan-product-select">选择产品</label>
+              <select id="new-plan-product-select"></select>
+            </div>
+            <div class="production-field-group">
+              <label for="new-plan-quantity">计划数量</label>
+              <input class="input" id="new-plan-quantity" type="number" min="1" placeholder="计划数量" />
+            </div>
+            <div class="production-field-group">
+              <label for="new-plan-date">计划日期</label>
+              <input class="input" id="new-plan-date" type="date" />
+            </div>
+            <div class="production-field-group production-field-group-full">
+              <label for="new-plan-notes">备注</label>
+              <input class="input" id="new-plan-notes" type="text" placeholder="备注（可选）" />
+            </div>
+          </div>
+          <div class="form-actions production-form-actions">
+            <button id="create-plan-button" class="btn btn-primary production-primary-btn">创建生产计划</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="page-footer"><div class="footer-content"><p>&copy; 2025 库存管理系统. 保留所有权利.</p><div class="footer-links"><a href="javascript:void(0)">隐私政策</a><a href="javascript:void(0)">使用条款</a><a href="javascript:void(0)">联系我们</a></div></div></footer>
+  <script type="module" src="/static/assets/js/production.js?v=2026071202"></script>
+</body>
+</html>
