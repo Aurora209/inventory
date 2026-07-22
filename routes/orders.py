@@ -20,6 +20,8 @@ def get_orders():
     order_type = request.args.get('order_type', '').strip() or None
     status = request.args.get('status', '').strip() or None
     search = request.args.get('search', '').strip().lower() or None
+    supplier_filter = request.args.get('supplier', '').strip().lower() or None
+    product_filter = request.args.get('product', '').strip().lower() or None
     page = DataValidator.validate_integer(request.args.get('page', 1), 'page', min_value=1)
     per_page = DataValidator.validate_integer(request.args.get('per_page', 20), 'per_page', min_value=1, max_value=100)
     
@@ -42,6 +44,26 @@ def get_orders():
             o for o in orders
             if search in str(o.get('order_number', '')).lower()
             or search in str(o.get('customer_supplier', '')).lower()
+            or any(
+                search in str(item.get('description', '')).lower()
+                or search in str(item.get('product_name', '')).lower()
+                or search in str(item.get('product_sku', '')).lower()
+                for item in o.get('items', [])
+            )
+        ]
+    
+    if supplier_filter:
+        orders = [o for o in orders if supplier_filter in str(o.get('customer_supplier', '')).lower()]
+    
+    if product_filter:
+        orders = [
+            o for o in orders
+            if any(
+                product_filter in str(item.get('description', '')).lower()
+                or product_filter in str(item.get('product_name', '')).lower()
+                or product_filter in str(item.get('product_sku', '')).lower()
+                for item in o.get('items', [])
+            )
         ]
 
     # 手动分页（因为原方法不支持分页）
@@ -170,6 +192,29 @@ def complete_order(order_id):
     return APIResponse.success(
         data=updated_order,
         message="订单完成成功"
+    )
+
+@orders_bp.route('/orders/<int:order_id>/revert', methods=['POST'])
+@handle_api_errors
+def revert_order(order_id):
+    """将已完成订单恢复为待处理"""
+    logger.info("恢复订单请求: ID=%s", order_id)
+    
+    DataValidator.validate_integer(order_id, 'order_id', min_value=1)
+    
+    order = Order.get_by_id(order_id)
+    if not order:
+        return APIResponse.not_found("订单不存在")
+    
+    if order['status'] != 'completed':
+        return APIResponse.error("只有已完成的订单才能恢复为待处理")
+    
+    updated_order = OrderService.update_order(order_id, {'status': 'pending'})
+    
+    logger.info("订单恢复成功: ID=%s", order_id)
+    return APIResponse.success(
+        data=updated_order,
+        message="已恢复为待处理"
     )
 
 @orders_bp.route('/orders/<int:order_id>/cancel', methods=['POST'])

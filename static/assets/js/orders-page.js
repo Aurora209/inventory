@@ -1,5 +1,13 @@
 import { apiGet, apiPost, apiPut, apiDelete, buildMainNav, formatCurrency, escapeHtml, setMessage } from './api.js?v=2026062214';
 
+function debounce(fn, delay) {
+  let timer = null;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
 const pageType = window.ORDER_PAGE_TYPE === 'sales' ? 'sales' : 'purchase';
 const navKey = pageType === 'sales' ? 'sales-orders' : 'purchase-orders';
 const typeLabel = pageType === 'sales' ? '销售' : '采购';
@@ -10,6 +18,7 @@ const actionViewText = pageType === 'sales' ? '查看销售单' : '查看采购�
 const actionEditText = pageType === 'sales' ? '编辑销售单' : '编辑采购单';
 const actionCompleteText = pageType === 'sales' ? '标记交付' : '标记入库';
 const actionCancelText = pageType === 'sales' ? '取消销售单' : '取消采购单';
+const actionRevertText = pageType === 'sales' ? '标记待处理' : '标记待处理';
 const actionDeleteText = pageType === 'sales' ? '删除销售单' : '删除采购单';
 
 document.getElementById('main-nav').innerHTML = buildMainNav(navKey);
@@ -23,9 +32,11 @@ const editOrderSubtotalDisplay = document.getElementById('edit-order-subtotal-di
 const editOrderShippingDisplay = document.getElementById('edit-order-shipping-display');
 const editOrderTotalDisplay = document.getElementById('edit-order-total-display');
 const bodyEl = document.getElementById('orders-body');
-const orderSearchInput = document.getElementById('order-search-input');
+const supplierSearchInput = document.getElementById('supplier-search-input');
+const productSearchInput = document.getElementById('product-search-input');
 const statusSelect = document.getElementById('status-select');
 const searchButton = document.getElementById('search-button');
+const resetButton = document.getElementById('reset-button');
 const createOrderSection = document.getElementById('create-order-section');
 const openCreateOrderSectionButton = document.getElementById('open-create-order-section');
 const closeCreateOrderSectionButton = document.getElementById('close-create-order-section');
@@ -355,6 +366,7 @@ async function handleOrderAction(button) {
       return;
     }
     if (action === 'complete') await postAction(`/orders/${id}/complete`);
+    if (action === 'revert') await postAction(`/orders/${id}/revert`);
     if (action === 'cancel') await postAction(`/orders/${id}/cancel`);
     if (action === 'delete') {
       button.disabled = true;
@@ -601,7 +613,8 @@ async function loadOrders() {
   try {
     statusEl.textContent = `正在加载${typeLabel}订单...`;
     const params = new URLSearchParams({ page: '1', per_page: '50', order_type: pageType });
-    if (orderSearchInput.value.trim()) params.set('search', orderSearchInput.value.trim());
+    if (supplierSearchInput.value.trim()) params.set('supplier', supplierSearchInput.value.trim());
+    if (productSearchInput.value.trim()) params.set('product', productSearchInput.value.trim());
     if (statusSelect.value) params.set('status', statusSelect.value);
 
     const result = await apiGet(`/orders?${params.toString()}`);
@@ -615,14 +628,18 @@ async function loadOrders() {
         <td>${formatCurrency(item.total_amount ?? 0)}</td>
         <td>${getStatusText(item.status)}</td>
         <td>
+          ${item.status === 'completed'
+            ? `<button type="button" class="action-btn" data-action="revert" data-id="${item.id}">${actionRevertText}</button>`
+            : `<button type="button" class="action-btn" data-action="complete" data-id="${item.id}">${actionCompleteText}</button>`}
+        </td>
+        <td>
           <button type="button" class="action-btn" data-action="view" data-id="${item.id}">${actionViewText}</button>
           <button type="button" class="action-btn" data-action="edit" data-id="${item.id}">${actionEditText}</button>
-          <button type="button" class="action-btn" data-action="complete" data-id="${item.id}">${actionCompleteText}</button>
           <button type="button" class="action-btn" data-action="cancel" data-id="${item.id}">${actionCancelText}</button>
           <button type="button" class="action-btn" data-action="delete" data-id="${item.id}">${actionDeleteText}</button>
         </td>
       </tr>
-    `).join('') : `<tr><td colspan="6">暂无${typeLabel}订单数据</td></tr>`;
+    `).join('') : `<tr><td colspan="7">暂无${typeLabel}订单数据</td></tr>`;
 
 
     statusEl.textContent = `已加载 ${orders.length} 条${typeLabel}订单`;
@@ -639,8 +656,17 @@ bodyEl?.addEventListener('click', (event) => {
   handleOrderAction(button);
 });
 searchButton?.addEventListener('click', loadOrders);
-orderSearchInput?.addEventListener('keydown', (event) => { if (event.key === 'Enter') loadOrders(); });
+supplierSearchInput?.addEventListener('keydown', (event) => { if (event.key === 'Enter') loadOrders(); });
+productSearchInput?.addEventListener('keydown', (event) => { if (event.key === 'Enter') loadOrders(); });
+supplierSearchInput?.addEventListener('input', debounce(loadOrders, 300));
+productSearchInput?.addEventListener('input', debounce(loadOrders, 300));
 statusSelect?.addEventListener('change', loadOrders);
+resetButton?.addEventListener('click', () => {
+  supplierSearchInput.value = '';
+  productSearchInput.value = '';
+  statusSelect.value = '';
+  loadOrders();
+});
 openCreateOrderSectionButton?.addEventListener('click', () => {
   if (!createOrderSection) return;
   createOrderSection.style.display = 'block';

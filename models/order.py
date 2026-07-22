@@ -94,7 +94,11 @@ class Order(BaseModel):
         if orders:
             order_ids = [o['id'] for o in orders]
             placeholders = ','.join(['?'] * len(order_ids))
-            items_query = f'SELECT * FROM order_items WHERE order_id IN ({placeholders})'
+            items_query = f'''SELECT oi.*, p.name as product_name, p.sku as product_sku
+                FROM order_items oi
+                LEFT JOIN products p ON oi.product_id = p.id
+                WHERE oi.order_id IN ({placeholders})
+                ORDER BY oi.id'''
             all_items = OrderItem.execute_query(items_query, tuple(order_ids))
             items_by_order = {}
             for item in all_items:
