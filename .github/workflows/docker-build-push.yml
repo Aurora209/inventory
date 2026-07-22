@@ -7,6 +7,7 @@ on:
 
 env:
   IMAGE_NAME: aurora209/inventory
+  ACTIONS_RUNNER_NODE_VERSION: '24'
 
 jobs:
   build-and-push:
