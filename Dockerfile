@@ -3,7 +3,9 @@ FROM python:3.13-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    FLASK_CONFIG=production
+    FLASK_CONFIG=production \
+    INVENTORY_DATA_DIR=/data \
+    LOG_DIR=/logs
 
 WORKDIR /app
 
@@ -19,13 +21,11 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 # 创建运行时目录
-RUN mkdir -p /app/data /app/logs
-
-VOLUME ["/app/data", "/app/logs"]
+RUN mkdir -p /data /logs
 
 EXPOSE 5001
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:5001/health || exit 1
 
-CMD ["python", "run.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--workers", "2", "--access-logfile", "-", "--error-logfile", "-", "run:app"]

@@ -14,12 +14,12 @@ const typeLabel = pageType === 'sales' ? '销售' : '采购';
 const counterpartLabel = pageType === 'sales' ? '客户' : '供应商';
 const statusPendingText = pageType === 'sales' ? '待发货' : '待到货';
 const statusCompletedText = pageType === 'sales' ? '已交付' : '已入库';
-const actionViewText = pageType === 'sales' ? '查看销售单' : '查看采购单';
-const actionEditText = pageType === 'sales' ? '编辑销售单' : '编辑采购单';
+const actionViewText = '查看';
+const actionEditText = '编辑';
 const actionCompleteText = pageType === 'sales' ? '标记交付' : '标记入库';
-const actionCancelText = pageType === 'sales' ? '取消销售单' : '取消采购单';
-const actionRevertText = pageType === 'sales' ? '标记待处理' : '标记待处理';
-const actionDeleteText = pageType === 'sales' ? '删除销售单' : '删除采购单';
+const actionCancelText = '取消';
+const actionRevertText = '标记待处理';
+const actionDeleteText = '删除';
 
 document.getElementById('main-nav').innerHTML = buildMainNav(navKey);
 

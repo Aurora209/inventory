@@ -97,7 +97,7 @@ def get_config(config_name: Optional[str] = None) -> BaseConfig:
     if not config_name:
         config_name = os.getenv('FLASK_CONFIG', 'development')
     
-    config_class = config_dict.get(config_name, DevelopmentConfig)
+    config_class = config_dict.get(config_name, ProductionConfig)
     return config_class()
 
 # 默认配置实例
