@@ -93,7 +93,7 @@ table.input-table { width: 100%; min-width: 0; border-collapse: collapse; font-s
 .label-grid .row-size-top, .label-grid .row-size-bottom { height: 10mm; }
 .label-grid .row-weight { height: 8.2mm; }
 .label-grid .left { width: 30%; font-weight: 700; font-size: 7.5mm; text-align: right; padding-right: 0.3mm !important; white-space: nowrap; letter-spacing: 0; line-height: 1 !important; }
-.label-grid .left-carton { font-size: 5.2mm; }
+.label-grid .left-carton { font-size: 4.5mm; }
 .label-sheet[data-size="150x100"] .left-carton { font-size: 7.5mm; }
 .label-grid .right { width: 70%; background: #fff; font-weight: 700; font-size: 7.5mm; padding-left: 1.5mm !important; padding-right: 1mm !important; white-space: nowrap; overflow: hidden; line-height: 1 !important; }
 .label-grid .size-left { font-size: 7.5mm; }
@@ -110,12 +110,10 @@ table.input-table { width: 100%; min-width: 0; border-collapse: collapse; font-s
   .preview-toolbar { align-items: flex-start; }
 }
 @media print {
-  html, body { background: #fff; margin: 0 !important; padding: 0 !important; width: var(--label-page-width, 100mm); height: var(--label-page-height, 100mm); }
-  body * { visibility: hidden; }
-  #labels, #labels * { visibility: visible; }
-  #labels { position: absolute; left: 0; top: 0; margin: 0 !important; padding: 0 !important; display: block; }
+  html, body { background: #fff; margin: 0 !important; padding: 0 !important; width: auto !important; min-width: 0 !important; height: auto !important; overflow: visible !important; }
   .no-label-print, .input-panel, .resizer, .preview-toolbar, header, nav, footer { display: none !important; }
-  .label-app, .label-panel, .preview-panel { display: block !important; height: auto !important; max-height: none !important; overflow: visible !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; background: transparent !important; }
+  .label-app, .preview-panel { display: block !important; width: auto !important; min-width: 0 !important; max-width: none !important; height: auto !important; max-height: none !important; overflow: visible !important; padding: 0 !important; margin: 0 !important; border: 0 !important; box-shadow: none !important; background: transparent !important; }
+  #labels { display: block !important; position: static !important; width: auto !important; min-width: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; }
   @page label-page { size: 100mm 100mm; margin: 0; }
   @page { size: 100mm 100mm; margin: 0; }
   .label-sheet[data-size="150x100"] {
@@ -137,9 +135,9 @@ table.input-table { width: 100%; min-width: 0; border-collapse: collapse; font-s
     width: 100mm !important;
     height: 100mm !important;
   }
-  .label-sheet { page: label-page; box-shadow: none !important; margin: 0 !important; break-inside: avoid; page-break-inside: avoid; break-after: page; page-break-after: always; overflow: hidden; }
+  .label-sheet { page: label-page; display: block !important; box-shadow: none !important; margin: 0 !important; break-inside: avoid; page-break-inside: avoid; break-after: page; page-break-after: always; overflow: hidden; color: #111 !important; background: #fff !important; }
   .label-sheet:last-child { break-after: auto; page-break-after: auto; }
   .label-inner { width: 100mm !important; height: 100mm !important; }
-  .label-inner[data-size="150x100"] { width: 150mm !important; height: 100mm !important; }
+  .label-sheet[data-size="150x100"] .label-inner { width: 150mm !important; height: 100mm !important; }
   .labels { gap: 0 !important; margin: 0 !important; padding: 0 !important; }
 }

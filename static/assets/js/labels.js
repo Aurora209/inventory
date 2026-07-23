@@ -23,6 +23,7 @@ const labelPageSizes = {
   '100x100': { width: '100mm', height: '100mm' },
   '150x100': { width: '150mm', height: '100mm' }
 };
+const FIT_SAFETY_PX = 1;
 
 function safe(v) { return (v ?? '').toString().trim(); }
 
@@ -205,13 +206,13 @@ function getPrintableRows() {
   return printableRows.length ? printableRows : rows.slice(0, 1);
 }
 function fitTextToSingleLine(root = document) {
-  root.querySelectorAll('.left, .right, .size-box, .double-cell').forEach(el => {
+  root.querySelectorAll('.right, .size-box, .double-cell').forEach(el => {
     const computed = window.getComputedStyle(el);
     const baseSize = parseFloat(el.dataset.baseFontSize || computed.fontSize);
     if (!el.dataset.baseFontSize) el.dataset.baseFontSize = String(baseSize);
     let size = parseFloat(el.dataset.baseFontSize);
     el.style.fontSize = `${size}px`;
-    while ((el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight) && size > 5) {
+    while (el.scrollWidth > el.clientWidth - FIT_SAFETY_PX && size > 5) {
       size -= 0.2;
       el.style.fontSize = `${size}px`;
     }
@@ -223,11 +224,24 @@ function fitTextToSingleLine(root = document) {
     if (!el.dataset.baseFontSize) el.dataset.baseFontSize = String(baseSize);
     let size = parseFloat(el.dataset.baseFontSize);
     el.style.fontSize = `${size}px`;
-    while (el.scrollWidth > el.clientWidth && size > 22) {
+    while (el.scrollWidth > el.clientWidth - FIT_SAFETY_PX && size > 18) {
       size -= 0.2;
       el.style.fontSize = `${size}px`;
     }
   });
+}
+function nextFrame() {
+  return new Promise(resolve => requestAnimationFrame(resolve));
+}
+async function prepareLabelsForPrint() {
+  updatePrintPageSize();
+  if (document.fonts?.ready) {
+    try { await document.fonts.ready; } catch (_) {}
+  }
+  await nextFrame();
+  fitTextToSingleLine(labels);
+  await nextFrame();
+  fitTextToSingleLine(labels);
 }
 function scheduleLabelFit() {
   requestAnimationFrame(() => {
@@ -402,7 +416,11 @@ document.getElementById('clearBtn').addEventListener('click', () => { rows = Arr
 document.getElementById('applyBulkAllBtn').addEventListener('click', () => applyBulkValues(false));
 document.getElementById('applyBulkEmptyBtn').addEventListener('click', () => applyBulkValues(true));
 document.getElementById('generateCartonBtn').addEventListener('click', generateCartons);
-document.getElementById('printBtn').addEventListener('click', () => { renderLabels(); window.print(); });
+document.getElementById('printBtn').addEventListener('click', async () => {
+  renderLabels();
+  await prepareLabelsForPrint();
+  window.print();
+});
 
 // 标签尺寸选择器
 const labelSizeSelect = document.getElementById('labelSizeSelect');
@@ -455,6 +473,9 @@ panelResizer.addEventListener('mousedown', event => {
   window.addEventListener('mousemove', onMove); window.addEventListener('mouseup', onUp);
 });
 window.addEventListener('resize', () => { loadPanelWidth(); scheduleLabelFit(); syncPanelHeights(); });
+window.addEventListener('beforeprint', () => {
+  updatePrintPageSize();
+});
 if (document.fonts?.ready) {
   document.fonts.ready.then(() => scheduleLabelFit()).catch(() => {});
 }

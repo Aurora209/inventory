@@ -29,7 +29,7 @@
 @import url("print.css?v=2026062214");
 
 /* ── Label Print ───────────────────────────────── */
-@import url("label-print.css?v=2026062214");
+@import url("label-print.css?v=2026072303");
 
 /* ── Page: Dashboard ───────────────────────────── */
 @import url("pages/_dashboard.css?v=2026062214");
@@ -43,7 +43,7 @@
 @import url("pages/_product-edit.css?v=2026062214");
 
 /* ── Page: Orders (Purchase & Sales) ───────────── */
-@import url("pages/_purchase-order-list.css?v=2026062214");
+@import url("pages/_purchase-order-list.css?v=2026072303");
 @import url("pages/_purchase-modal.css?v=2026062214");
 @import url("pages/_sales-order-list.css?v=2026062214");
 @import url("pages/_order-modals.css?v=2026062214");
