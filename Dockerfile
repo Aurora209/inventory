@@ -16,7 +16,7 @@ RUN apt-get update && \
 
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install --extra-index-url https://www.piwheels.org/simple -r requirements.txt
 
 COPY . .
 
@@ -28,4 +28,4 @@ EXPOSE 5001
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:5001/health || exit 1
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--workers", "2", "--access-logfile", "-", "--error-logfile", "-", "run:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--workers", "1", "--access-logfile", "-", "--error-logfile", "-", "run:app"]
