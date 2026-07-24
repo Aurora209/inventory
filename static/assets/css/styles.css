@@ -9,8 +9,9 @@
  *   2. Base (reset, layout, components)
  *   3. Responsive base
  *   4. Print
- *   5. Label print
- *   6. Per-page styles (loaded in DOM order)
+ *   5. Per-page styles (loaded in DOM order)
+ *   6. Final global overrides
+ *   7. Label print
  *
  * To add a new page style file, create pages/_<name>.css and add an
  * @import below in the appropriate section.
@@ -27,9 +28,6 @@
 
 /* ── Print ─────────────────────────────────────── */
 @import url("print.css?v=2026062214");
-
-/* ── Label Print ───────────────────────────────── */
-@import url("label-print.css?v=2026072303");
 
 /* ── Page: Dashboard ───────────────────────────── */
 @import url("pages/_dashboard.css?v=2026062214");
@@ -95,3 +93,6 @@
 /* ── Final Global Overrides ────────────────────── */
 @import url("pages/_typography.css?v=2026062214");
 @import url("pages/_polish.css?v=2026062304");
+
+/* ── Label Print ───────────────────────────────── */
+@import url("label-print.css?v=2026072409");

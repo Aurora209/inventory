@@ -18,11 +18,13 @@ const defaultRow = () => ({
 });
 
 let rows = [];
-let labelSize = localStorage.getItem('label-size') || '100x100';
 const labelPageSizes = {
   '100x100': { width: '100mm', height: '100mm' },
   '150x100': { width: '150mm', height: '100mm' }
 };
+const queryLabelSize = new URLSearchParams(window.location.search).get('size');
+const savedLabelSize = localStorage.getItem('label-size');
+let labelSize = labelPageSizes[queryLabelSize] ? queryLabelSize : (labelPageSizes[savedLabelSize] ? savedLabelSize : '100x100');
 const FIT_SAFETY_PX = 1;
 
 function safe(v) { return (v ?? '').toString().trim(); }
@@ -185,7 +187,7 @@ function formatQty(v) {
 
 function buildLabelMarkup(row) {
   return `
-    <div class="label-inner" data-size="${labelSize}">
+    <div class="label-inner">
       <table class="label-grid">
         <tr class="row-h"><td class="left">SKU:</td><td class="right" colspan="2">${escapeHtml(safe(row.sku))}</td></tr>
         <tr class="row-h"><td class="left">NAME:</td><td class="right" colspan="2">${escapeHtml(safe(row.name))}</td></tr>
@@ -207,24 +209,15 @@ function getPrintableRows() {
 }
 function fitTextToSingleLine(root = document) {
   root.querySelectorAll('.right, .size-box, .double-cell').forEach(el => {
+    if (!el.textContent.trim()) return;
+    const box = el.getBoundingClientRect();
+    if (box.width < 10 || box.height < 5 || el.clientWidth < 10 || el.clientHeight < 5) return;
     const computed = window.getComputedStyle(el);
     const baseSize = parseFloat(el.dataset.baseFontSize || computed.fontSize);
     if (!el.dataset.baseFontSize) el.dataset.baseFontSize = String(baseSize);
     let size = parseFloat(el.dataset.baseFontSize);
     el.style.fontSize = `${size}px`;
-    while (el.scrollWidth > el.clientWidth - FIT_SAFETY_PX && size > 5) {
-      size -= 0.2;
-      el.style.fontSize = `${size}px`;
-    }
-  });
-
-  root.querySelectorAll('.country').forEach(el => {
-    const computed = window.getComputedStyle(el);
-    const baseSize = parseFloat(el.dataset.baseFontSize || computed.fontSize);
-    if (!el.dataset.baseFontSize) el.dataset.baseFontSize = String(baseSize);
-    let size = parseFloat(el.dataset.baseFontSize);
-    el.style.fontSize = `${size}px`;
-    while (el.scrollWidth > el.clientWidth - FIT_SAFETY_PX && size > 18) {
+    while (el.scrollWidth > el.clientWidth + FIT_SAFETY_PX && size > 8) {
       size -= 0.2;
       el.style.fontSize = `${size}px`;
     }
@@ -239,9 +232,6 @@ async function prepareLabelsForPrint() {
     try { await document.fonts.ready; } catch (_) {}
   }
   await nextFrame();
-  fitTextToSingleLine(labels);
-  await nextFrame();
-  fitTextToSingleLine(labels);
 }
 function scheduleLabelFit() {
   requestAnimationFrame(() => {
